@@ -75,11 +75,13 @@ handle_call({admitir, Paciente, Servicio}, _From, State) ->
       end
   end;
 handle_call({trasladar, Origen, Destino}, _From, State) ->
-  case p40_cama:info(Origen) of
-    #{estado := ocupada, paciente := Paciente, servicio := ServicioOrigen} ->
+  %% Leemos el store en vez de llamar a la cama: si la cama origen se esta
+  %% reiniciando en este instante, admisiones no se cae por eso.
+  case p40_store:leer({cama, Origen}) of
+    {ok, #{estado := ocupada, paciente := Paciente, servicio := ServicioOrigen}} ->
       case asignar(Destino, Paciente) of
         {ok, CamaDestino} ->
-          ok = p40_cama:dar_alta(Origen),
+          ok = alta_con_reintento(Origen, 50),
           p40_eventos:registrar(#{tipo => traslado, paciente => Paciente,
                                   de => Origen, a => CamaDestino,
                                   servicio_origen => ServicioOrigen,
@@ -88,8 +90,10 @@ handle_call({trasladar, Origen, Destino}, _From, State) ->
         sin_cama ->
           {reply, {error, sin_cama}, State}
       end;
-    #{estado := Estado} ->
-      {reply, {error, {origen, Estado}}, State}
+    {ok, #{estado := Estado}} ->
+      {reply, {error, {origen, Estado}}, State};
+    none ->
+      {reply, {error, cama_desconocida}, State}
   end;
 handle_call(en_espera, _From, #{espera := Espera} = State) ->
   {reply, Espera, State}.
@@ -99,13 +103,14 @@ handle_cast({cama_libre, CamaId, Servicio}, #{espera := Espera} = State) ->
     [] ->
       {noreply, State};
     [Paciente | Resto] ->
-      case p40_cama:ocupar(CamaId, Paciente) of
+      case ocupar_seguro(CamaId, Paciente) of
         ok ->
           p40_eventos:registrar(#{tipo => admision_desde_espera, paciente => Paciente,
                                   servicio => Servicio, cama => CamaId}),
           {noreply, guardar_espera(Espera#{Servicio => Resto}, State)};
-        {error, {estado, _}} ->
-          %% Alguien la tomo antes; el paciente sigue primero en la fila.
+        {error, _} ->
+          %% Alguien la tomo antes o la cama se cayo; el paciente sigue
+          %% primero en la fila.
           {noreply, State}
       end
   end.
@@ -128,9 +133,39 @@ asignar(Servicio, Paciente) ->
 intentar([], _Paciente) ->
   sin_cama;
 intentar([Id | Resto], Paciente) ->
-  case p40_cama:ocupar(Id, Paciente) of
+  case ocupar_seguro(Id, Paciente) of
     ok -> {ok, Id};
-    {error, {estado, _}} -> intentar(Resto, Paciente)
+    {error, _} -> intentar(Resto, Paciente)
+  end.
+
+%% Encontrado con la simulacion de fallas: si la cama muere a media llamada,
+%% gen_statem:call le avienta un exit a admisiones y la tumbaria. Lo atrapamos y
+%% preguntamos al store que alcanzo a pasar: la cama guarda su estado ANTES de
+%% responder, asi que si el store dice "ocupada por este paciente", la asignacion
+%% si ocurrio (no la repetimos en otra cama, el paciente quedaria en dos).
+ocupar_seguro(Id, Paciente) ->
+  try
+    p40_cama:ocupar(Id, Paciente)
+  catch
+    exit:{_Razon, {gen_statem, call, _}} ->
+      case p40_store:leer({cama, Id}) of
+        {ok, #{estado := ocupada, paciente := Paciente}} -> ok;
+        _ -> {error, cama_caida}
+      end
+  end.
+
+%% En un traslado el alta de origen TIENE que ocurrir (si no, el paciente queda en
+%% dos camas). Si la cama se esta reiniciando, esperamos un poco y reintentamos.
+alta_con_reintento(Origen, 0) ->
+  error({alta_imposible, Origen});
+alta_con_reintento(Origen, Intentos) ->
+  try p40_cama:dar_alta(Origen) of
+    ok -> ok;
+    {error, {estado, por_limpiar}} -> ok
+  catch
+    exit:{_Razon, {gen_statem, call, _}} ->
+      timer:sleep(10),
+      alta_con_reintento(Origen, Intentos - 1)
   end.
 
 atender_fila(_Servicio, []) ->

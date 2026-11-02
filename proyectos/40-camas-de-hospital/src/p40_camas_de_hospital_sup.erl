@@ -8,7 +8,8 @@
 %%   |- p40_eventos      bitacora + alertas de ocupacion
 %%   |- p40_camas_sup    (one_for_one)
 %%   |   `- p40_servicio_sup x6 (one_for_one) -> p40_cama x N
-%%   `- p40_admisiones   asigna camas, lista de espera, traslados
+%%   |- p40_admisiones   asigna camas, lista de espera, traslados
+%%   `- p40_simulador    (opcional, {simulacion, true}) genera el escenario
 %%
 %% rest_for_one porque el orden importa: las camas leen/escriben el store y
 %% reportan a eventos; admisiones consulta a las camas. Si cae un proceso, se
@@ -31,8 +32,16 @@ init([]) ->
       shutdown => infinity,
       type => supervisor},
     worker(p40_admisiones)
-  ],
+  ] ++ simulador(),
   {ok, {#{strategy => rest_for_one, intensity => 10, period => 60}, Hijos}}.
+
+%% El simulador es opcional para que los tests y un despliegue "real" no lo
+%% arranquen. Va al final: depende de todo lo demas y nadie depende de el.
+simulador() ->
+  case application:get_env(p40_camas_de_hospital, simulacion, false) of
+    true -> [worker(p40_simulador)];
+    false -> []
+  end.
 
 worker(Modulo) ->
   #{id => Modulo,

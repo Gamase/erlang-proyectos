@@ -2,7 +2,7 @@
   {description, "Camas de hospital"},
   {vsn, "0.1.0"},
   {registered, [p40_camas_de_hospital_sup, p40_store, p40_eventos,
-                p40_camas_sup, p40_admisiones]},
+                p40_camas_sup, p40_admisiones, p40_simulador]},
   {mod, {p40_camas_de_hospital_app, []}},
   {applications, [kernel, stdlib, cowboy, recon]},
   {env, []}

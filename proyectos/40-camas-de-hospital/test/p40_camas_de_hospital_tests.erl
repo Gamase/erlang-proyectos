@@ -181,6 +181,73 @@ caos_matar_admisiones_con_espera(_) ->
     esperar(fun() -> maps:get(paciente, p40_cama:info(<<"UCI-01">>)) =:= <<"P2">> end)
   end.
 
+%%% Simulacion --------------------------------------------------------------------
+
+poisson_promedio_test() ->
+  rand:seed(exsss, {1, 2, 3}),
+  Muestras = [p40_simulador:poisson(0.5) || _ <- lists:seq(1, 20000)],
+  Promedio = lists:sum(Muestras) / length(Muestras),
+  ?assert(abs(Promedio - 0.5) < 0.03).
+
+reloj_test() ->
+  ?assertEqual("Dia 1 08:00", p40_simulador:reloj(480)),
+  ?assertEqual("Dia 2 08:30", p40_simulador:reloj(1950)).
+
+%% Corre ~2 dias simulados con las 120 camas reales y una falla inyectada cada
+%% 2 horas, y luego un brote. Al final revisa invariantes que NUNCA deben romperse.
+simulacion_test_() ->
+  {setup,
+   fun() ->
+     logger:set_primary_config(level, error),
+     application:unset_env(p40_camas_de_hospital, servicios),
+     application:set_env(p40_camas_de_hospital, minuto_ms, 1),
+     application:set_env(p40_camas_de_hospital, limpieza_min, 45),
+     application:set_env(p40_camas_de_hospital, simulacion, true),
+     application:set_env(p40_camas_de_hospital, falla_cada_min, 120),
+     {ok, Pid} = p40_camas_de_hospital_sup:start_link(),
+     unlink(Pid),
+     Pid
+   end,
+   fun(Pid) ->
+     detener(Pid),
+     application:unset_env(p40_camas_de_hospital, simulacion),
+     application:unset_env(p40_camas_de_hospital, falla_cada_min)
+   end,
+   {timeout, 30, fun() ->
+     timer:sleep(2900),
+     ok = p40_simulador:pausar(),
+     timer:sleep(100),
+     Est = p40_simulador:estado(),
+     ?assert(maps:get(ingresos, Est) > 100),   % llenado inicial + ~2 dias
+     ?assert(maps:get(altas, Est) > 30),
+     ?assert(maps:get(fallas, Est) >= 15),
+     invariantes(),
+
+     ok = p40_simulador:brote(30),
+     timer:sleep(50),
+     #{aislamiento := Ais} = p40_ocupacion:resumen(p40_store:camas()),
+     ?assertEqual(20, maps:get(ocupada, Ais) + maps:get(por_limpiar, Ais)
+                      + maps:get(bloqueada, Ais)),
+     ?assertNotEqual([], maps:get(aislamiento, p40_admisiones:en_espera())),
+     ?assert(maps:is_key(aislamiento, p40_eventos:alertas_activas())),
+     invariantes()
+   end}}.
+
+invariantes() ->
+  Camas = p40_store:camas(),
+  ?assertEqual(120, length(Camas)),
+  %% Todas las camas tienen su proceso vivo (el supervisor reinicio las matadas).
+  [?assert(is_pid(whereis(p40_cama:nombre(Id)))) || #{id := Id} <- Camas],
+  %% Un paciente nunca esta en dos camas.
+  EnCama = [P || #{estado := ocupada, paciente := P} <- Camas],
+  ?assertEqual(length(EnCama), length(lists:usort(EnCama))),
+  %% Nadie esta en la lista de espera y en una cama a la vez.
+  EnEspera = lists:append(maps:values(p40_admisiones:en_espera())),
+  ?assertEqual([], [P || P <- EnEspera, lists:member(P, EnCama)]),
+  %% Una cama ocupada siempre tiene paciente; una libre nunca.
+  [?assertNotEqual(undefined, P) || #{estado := ocupada, paciente := P} <- Camas],
+  [?assertEqual(undefined, P) || #{estado := libre, paciente := P} <- Camas].
+
 %%% Utilidades --------------------------------------------------------------------
 
 esperar_estado(Id, Estado) ->
