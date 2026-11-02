@@ -117,6 +117,8 @@ bash deploy/instalar-servicio.sh
 Al final debe decir **"Listo: el servicio p40-camas esta corriendo"**. Ya puedes cerrar la
 terminal: la página sigue en `http://IP-PÚBLICA:8080`.
 
+![Servicio corriendo en la VM](https://raw.githubusercontent.com/Gamase/erlang-proyectos/main/proyectos/40-camas-de-hospital/docs/capturas-vm/06-servicio-systemd.png)
+
 **Comandos para manejar el servicio:**
 
 | Para… | Comando |
