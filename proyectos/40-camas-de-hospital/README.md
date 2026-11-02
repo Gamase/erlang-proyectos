@@ -2,6 +2,8 @@
 
 **Dominio:** Salud
 
+**Manual de uso:** [`docs/MANUAL.md`](docs/MANUAL.md) (tambien publicado como Gist).
+
 ocupacion, altas y limpieza.
 
 ## Equipo
