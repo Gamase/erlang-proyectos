@@ -99,6 +99,52 @@ está recibiendo datos en tiempo real.
 
 Para detenerlo: en la terminal escribe `q().` y Enter (o `Ctrl+C` dos veces).
 
+### 4.1 Dejarlo como servicio (arranca solo, sin terminal abierta)
+
+`rebar3 shell` sirve para probar, pero si cierras la terminal la app se apaga. Para dejarla
+corriendo siempre, se instala como **servicio de systemd**: arranca sola al prender la VM y,
+si la máquina virtual de Erlang llegara a morir completa, systemd la vuelve a levantar.
+
+1. Cierra el `rebar3 shell` si lo tienes abierto (escribe `q().`).
+2. Instala el servicio (actualiza el código, construye el *release* y lo activa):
+
+```bash
+cd ~/erlang-proyectos/proyectos/40-camas-de-hospital
+git pull
+bash deploy/instalar-servicio.sh
+```
+
+Al final debe decir **"Listo: el servicio p40-camas esta corriendo"**. Ya puedes cerrar la
+terminal: la página sigue en `http://IP-PÚBLICA:8080`.
+
+**Comandos para manejar el servicio:**
+
+| Para… | Comando |
+|---|---|
+| Ver si está corriendo | `systemctl status p40-camas` |
+| Ver los logs en vivo | `journalctl -u p40-camas -f` (sal con `Ctrl+C`) |
+| Reiniciarlo | `sudo systemctl restart p40-camas` |
+| Detenerlo | `sudo systemctl stop p40-camas` |
+| Que ya no arranque solo | `sudo systemctl disable --now p40-camas` |
+| Actualizar tras un `git pull` | `rebar3 release && sudo systemctl restart p40-camas` |
+
+**Consola del nodo en vivo** (para el reporte, la prueba de caos o diagnóstico con `recon`):
+
+```bash
+_build/default/rel/p40_camas_de_hospital/bin/p40_camas_de_hospital remote_console
+```
+
+```erlang
+p40_simulador:reporte().                 % tabla por servicio
+recon:proc_count(memory, 5).             % los 5 procesos que más memoria usan
+recon:proc_count(message_queue_len, 5).  % procesos con más mensajes pendientes
+exit(whereis('p40_cama_CIR-01'), kill).  % prueba de caos manual: la cama vuelve sola
+```
+
+> ⚠️ Para salir de `remote_console` presiona **`Ctrl+C` dos veces**. **No uses `q().`**:
+> en la consola remota `q().` apaga el nodo del servicio (systemd lo vuelve a levantar,
+> pero se reinicia la simulación).
+
 ## 5. Uso, pantalla por pantalla
 
 La app tiene 4 pestañas abajo: **Inicio, Camas, Admitir y Bitácora**.
@@ -221,10 +267,11 @@ Todo se ajusta en `config/sys.config` (reinicia `rebar3 shell` después de cambi
 | Problema | Causa probable | Solución |
 |---|---|---|
 | El navegador no abre `http://IP:8080` (se queda cargando) | Falta la regla del puerto 8080, o tu IP cambió desde que la creaste ("My IP") | Revisa el paso 5. Si cambiaste de red (casa/escuela), edita la regla y vuelve a elegir **My IP** |
-| Funcionaba y después de prender la instancia ya no abre | En EC2 la **IP pública cambia** cada vez que detienes y arrancas la instancia | Copia la IP nueva del resumen de la instancia |
+| Funcionaba y después de prender la instancia ya no abre | En EC2 la **IP pública cambia** cada vez que detienes y arrancas la instancia | Copia la IP nueva del resumen de la instancia (si instalaste el servicio, la app ya arrancó sola) |
 | El lab de AWS Academy expiró | Las sesiones del lab se apagan y a veces se reinicia el entorno | Vuelve a iniciar el lab; si la instancia se borró, repite la sección 3 |
 | `undef` con `json:encode` al arrancar | Estás usando Erlang menor a 27 | Verifica con el paso 1 e instala OTP 27 |
-| `eaddrinuse` al arrancar | Ya hay otro `rebar3 shell` usando el puerto 8080 | Ciérralo (`q().`) o cambia `puerto` en `config/sys.config` |
+| `eaddrinuse` al arrancar | Ya hay algo usando el puerto 8080: otro `rebar3 shell` o el servicio | Cierra el shell (`q().`) o detén el servicio: `sudo systemctl stop p40-camas` |
+| El servicio no arranca | Error al construir el release o puerto ocupado | `journalctl -u p40-camas -n 50` muestra el motivo |
 | `Failed to update package cowboy from repo hexpm` | La VM no tiene internet hacia hex.pm | Revisa la salida a internet de la VM y vuelve a correr `rebar3 compile` |
 | Arriba dice **"Reconectando…"** | Se cortó la conexión en vivo (red o servidor detenido) | La página se reconecta sola; si no, revisa que `rebar3 shell` siga corriendo y recarga |
 | Los números no se mueven | La simulación está en pausa o apagada | En la consola: `p40_simulador:reanudar().` y revisa `simulacion` en `sys.config` |

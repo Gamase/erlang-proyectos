@@ -1,0 +1,25 @@
+# Servicio systemd del proyecto 40. No se copia a mano: deploy/instalar-servicio.sh
+# reemplaza __USUARIO__, __HOME__ y __DIR__ con los valores reales de la VM.
+[Unit]
+Description=Control de camas de hospital (proyecto 40, Erlang/OTP)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=__USUARIO__
+Environment=HOME=__HOME__
+WorkingDirectory=__DIR__
+# foreground: el nodo corre como proceso principal del servicio y sus logs van a
+# journald. Al detener el servicio, systemd manda SIGTERM y el nodo se apaga
+# ordenadamente (los supervisores detienen a sus hijos).
+ExecStart=__DIR__/_build/default/rel/p40_camas_de_hospital/bin/p40_camas_de_hospital foreground
+# Si la VM de Erlang muere completa (no un proceso: eso lo resuelven los
+# supervisores), systemd la vuelve a levantar.
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=30
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

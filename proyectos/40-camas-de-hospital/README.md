@@ -26,8 +26,8 @@ rebar3 shell          # abre http://localhost:8080 en el navegador o el celular
 - [x] Modelar el dominio: que es un proceso, que es un supervisor
 - [x] Endpoints `/api/...` y SSE con cowboy
 - [x] Metricas `/metrics`
-- [ ] Diagnostico con recon (capturas en la VM)
-- [ ] Release + systemd
+- [x] Diagnostico con recon (`remote_console`, ver manual)
+- [x] Release + systemd (`bash deploy/instalar-servicio.sh`)
 - [x] Prueba de caos (matar procesos y verificar recuperacion) — ver tests `caos_*`
 - [x] Simulacion del escenario (120 camas, 40 ingresos/40 altas al dia, brote, fallas inyectadas)
 
