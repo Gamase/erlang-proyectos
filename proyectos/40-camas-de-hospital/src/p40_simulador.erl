@@ -15,7 +15,8 @@
 %% El reloj simulado arranca el dia 1 a las 08:00 y avanza segun minuto_ms.
 %% Va al final del arbol de supervision: si truena, solo se reinicia el.
 
--export([start_link/0, estado/0, brote/1, pausar/0, reanudar/0, reporte/0]).
+-export([start_link/0, estado/0, brote/1, pausar/0, reanudar/0, reporte/0,
+         reloj_de/1]).
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2]).
 %% Exportadas para probarlas solas.
 -export([poisson/1, reloj/1]).
@@ -35,6 +36,16 @@ start_link() ->
 estado() -> gen_server:call(?MODULE, estado).
 brote(N) -> gen_server:call(?MODULE, {brote, N}).
 pausar() -> gen_server:call(?MODULE, pausar).
+
+%% Hora simulada ("Dia 2 14:35") de una marca de tiempo real, para la bitacora.
+%% Sin simulador corriendo regresa undefined y la UI usa la hora del reloj.
+reloj_de(TsMs) ->
+  case whereis(?MODULE) of
+    undefined -> undefined;
+    _Pid ->
+      Inicio = gen_server:call(?MODULE, inicio),
+      reloj(?HORA_INICIO * 60 + (TsMs - Inicio) div p40_config:minuto_ms())
+  end.
 reanudar() -> gen_server:call(?MODULE, reanudar).
 
 %% Resumen legible para la consola (y para copiar al README).
@@ -70,6 +81,8 @@ init([]) ->
   programar_tick(),
   {ok, State}.
 
+handle_call(inicio, _From, #{inicio := Inicio} = State) ->
+  {reply, Inicio, State};
 handle_call(estado, _From, State) ->
   Publico = maps:with([ingresos, altas, altas_retrasadas, traslados, fallas, pausado],
                       State),

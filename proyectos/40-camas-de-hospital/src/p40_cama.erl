@@ -116,10 +116,13 @@ peticion_conocida({programar_alta, _}) -> true.
 %% Toda transicion pasa por aqui: guarda el estado ANTES de responder (asi quien
 %% lea el store justo despues ya ve el cambio), avisa a la bitacora y, si la cama
 %% quedo libre, avisa a admisiones por si hay pacientes en espera.
-ir(Nuevo, Viejo, Data0, From) ->
-  Data = Data0#{desde := ahora()},
+ir(Nuevo, Viejo, #{desde := Desde} = Data0, From) ->
+  Ahora = ahora(),
+  Data = Data0#{desde := Ahora},
   publicar(Nuevo, Data),
-  p40_eventos:cambio(Viejo, snapshot(Nuevo, Data)),
+  %% La duracion del estado que termina alimenta metricas como el tiempo real de
+  %% limpieza (por_limpiar -> libre).
+  p40_eventos:cambio(Viejo, snapshot(Nuevo, Data), Ahora - Desde),
   avisar_si_libre(Nuevo, Data),
   Respuesta = case From of
     sin_respuesta -> [];

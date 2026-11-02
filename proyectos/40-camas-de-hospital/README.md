@@ -10,18 +10,21 @@ Proyecto individual: Sebastián Martínez García (@Gamase) — backend, fronten
 
 ## Arranque
 
+Requiere Erlang/OTP 27 (usa el modulo `json`) y rebar3.
+
 ```bash
 rebar3 compile
-rebar3 eunit
-rebar3 shell
+rebar3 eunit          # 20 tests: dominio, caos, simulacion, API y SSE
+rebar3 shell          # abre http://localhost:8080 en el navegador o el celular
 ```
 
 ## Pendiente
 
-- [ ] Disenar pantallas en Stitch (`design/PROMPT_STITCH.md`)
+- [x] Disenar pantallas en Stitch (`design/PROMPT_STITCH.md`)
 - [x] Modelar el dominio: que es un proceso, que es un supervisor
-- [ ] Endpoints `/api/...` y WebSocket con cowboy
-- [ ] Metricas `/metrics` y diagnostico con recon
+- [x] Endpoints `/api/...` y SSE con cowboy
+- [x] Metricas `/metrics`
+- [ ] Diagnostico con recon (capturas en la VM)
 - [ ] Release + systemd
 - [x] Prueba de caos (matar procesos y verificar recuperacion) — ver tests `caos_*`
 - [x] Simulacion del escenario (120 camas, 40 ingresos/40 altas al dia, brote, fallas inyectadas)
@@ -68,6 +71,62 @@ p40_camas_de_hospital_sup (rest_for_one)
 | 20 admisiones simultaneas por 1 cama de UCI | Solo una gana | 1 `{ok, _}` y 19 `{en_espera, _}` |
 | Proceso de una cama ocupada (`exit(Pid, kill)`) | Se reinicia sin perder al paciente | Vuelve en `ocupada` con el mismo paciente |
 | `p40_admisiones` con un paciente en espera | Recupera la fila | La fila se restaura y el paciente recibe la cama al liberarse |
+
+## Interfaz (Google Stitch -> cowboy)
+
+El diseno se hizo en Stitch con los prompts de `design/PROMPT_STITCH.md`. El export
+esta en `design/stitch/` (HTML y captura de cada pantalla) y `design/DESIGN.md` es
+la fuente de colores y tipografia. La app real vive en `priv/www/index.html`: una
+sola pagina con HTML/CSS/JS plano que reutiliza la configuracion de Tailwind del
+export y se conecta a la API. Capturas de la app funcionando: `design/app/`.
+
+| Pantalla | Stitch | App |
+|---|---|---|
+| Inicio (ocupacion en vivo) | `design/stitch/01-dashboard/` | `design/app/01-inicio.png` |
+| Matriz de camas + detalle | `design/stitch/02-camas-servicio/` | `02-camas.png`, `03-detalle-cama.png` |
+| Admitir paciente | `design/stitch/03-admitir/` | `04-admitir.png` |
+| Bitacora | `design/stitch/04-bitacora/` | `05-bitacora.png` |
+
+Cambios respecto al export de Stitch (documentados como pide `AGENTS.md`):
+
+- Se quitaron los datos que Stitch invento y el sistema no maneja: nombre del
+  paciente, NSS, nivel de triage, medico tratante y el boton de brazalete. El
+  backend solo usa un ID de paciente (`P-0142`); no hay datos personales en el demo.
+- Se agrego el panel "Simulacion del escenario" en Inicio (contadores y boton de
+  brote) usando los mismos estilos de tarjeta y boton destructivo de `DESIGN.md`.
+- La bitacora agrega el filtro "Camas" (cambios de estado) y muestra los eventos
+  `falla_inyectada` y `restaurada` para ver la recuperacion de OTP en vivo.
+- Las barras de ocupacion usan los niveles de `DESIGN.md` (verde < 75 %, ambar
+  75-84 %, rojo >= 85 %).
+
+### API
+
+| Ruta | Metodo | Que hace |
+|---|---|---|
+| `/` | GET | La UI |
+| `/api/resumen` | GET | Ocupacion general y por servicio, espera, prediccion a 4 h, alertas, reloj |
+| `/api/camas?servicio=S` | GET | Camas (todas o de un servicio) |
+| `/api/camas/:id` | GET | Una cama |
+| `/api/camas/:id/:accion` | POST | `alta`, `limpieza`, `bloquear`, `desbloquear`, `programar_alta` |
+| `/api/admisiones` | POST | `{"paciente":"P-0231","servicio":"cirugia"}` -> 200 asignada / 202 en espera |
+| `/api/traslados` | POST | `{"cama":"MI-08","servicio":"terapia_intensiva"}` |
+| `/api/eventos?n=50` | GET | Bitacora |
+| `/api/simulador/brote` | POST | `{"n":25}` |
+| `/sse` | GET | Server-Sent Events: cada evento de la bitacora en cuanto ocurre |
+| `/metrics` | GET | Formato Prometheus: camas por estado, ocupacion, espera, altas, limpieza promedio |
+
+Errores con su codigo: 400 entrada invalida, 404 cama o accion desconocida, 405
+metodo no permitido, 409 transicion ilegal o sin cama, 503 cama reiniciandose.
+El texto del navegador nunca se convierte en atom (`binary_to_atom`): servicios y
+camas se buscan en la configuracion y el store, para que un cliente no pueda
+agotar la tabla de atoms del nodo.
+
+```bash
+curl localhost:8080/api/resumen
+curl -X POST localhost:8080/api/admisiones -d '{"paciente":"P-1","servicio":"cirugia"}'
+curl -N localhost:8080/sse
+curl localhost:8080/metrics
+```
 
 ## Simulacion
 

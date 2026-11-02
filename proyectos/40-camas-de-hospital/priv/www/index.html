@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<title>Control de Camas</title>
+<!-- Estilos: configuracion exportada de Google Stitch (design/DESIGN.md + design/stitch/*/code.html) -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "surface": "#faf8ff", "surface-container-lowest": "#ffffff", "primary-fixed": "#a9f0e5", "error": "#ba1a1a", "inverse-primary": "#8ed3c9", "on-primary-fixed-variant": "#005049", "inverse-on-surface": "#eef0ff", "on-secondary-container": "#fefcff", "on-background": "#131b2e", "on-tertiary-fixed-variant": "#93000b", "outline": "#6f7977", "surface-container-high": "#e2e7ff", "secondary-container": "#316bf3", "primary-fixed-dim": "#8ed3c9", "on-surface": "#131b2e", "tertiary-container": "#ac000f", "outline-variant": "#bec9c6", "on-tertiary": "#ffffff", "on-error": "#ffffff", "surface-container-low": "#f2f3ff", "on-primary-container": "#8fd5ca", "primary-container": "#0d5e56", "surface-variant": "#dae2fd", "tertiary": "#800008", "on-primary": "#ffffff", "surface-tint": "#1f6961", "tertiary-fixed-dim": "#ffb4ab", "on-tertiary-fixed": "#410002", "on-secondary-fixed-variant": "#003ea8", "on-surface-variant": "#3f4947", "surface-bright": "#faf8ff", "error-container": "#ffdad6", "on-secondary-fixed": "#00174b", "primary": "#00453e", "on-secondary": "#ffffff", "on-primary-fixed": "#00201d", "secondary": "#0051d5", "secondary-fixed": "#dbe1ff", "on-error-container": "#93000a", "background": "#faf8ff", "surface-container": "#eaedff", "inverse-surface": "#283044", "on-tertiary-container": "#ffb6ae", "surface-dim": "#d2d9f4", "secondary-fixed-dim": "#b4c5ff", "tertiary-fixed": "#ffdad6", "surface-container-highest": "#dae2fd" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "space-xl": "1.5rem", "margin": "1rem", "space-md": "0.75rem", "gutter": "0.75rem", "space-lg": "1rem", "space-xs": "0.25rem", "space-sm": "0.5rem" }, fontFamily: { "label-md": ["Inter"], "body-sm": ["Inter"], "headline-md": ["Inter"], "numeric-bed": ["Inter"], "headline-sm": ["Inter"], "label-lg": ["Inter"], "display-stat": ["Inter"], "body-md": ["Inter"], "headline-lg": ["Inter"], "body-lg": ["Inter"], "label-sm": ["Inter"] }, fontSize: { "label-md": ["12px", { lineHeight: "16px", letterSpacing: "0.02em", fontWeight: "600" }], "body-sm": ["13px", { lineHeight: "18px", fontWeight: "400" }], "headline-md": ["18px", { lineHeight: "24px", fontWeight: "600" }], "numeric-bed": ["20px", { lineHeight: "24px", letterSpacing: "-0.01em", fontWeight: "700" }], "headline-sm": ["16px", { lineHeight: "22px", fontWeight: "600" }], "label-lg": ["14px", { lineHeight: "18px", letterSpacing: "0.01em", fontWeight: "600" }], "display-stat": ["32px", { lineHeight: "38px", letterSpacing: "-0.02em", fontWeight: "700" }], "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }], "headline-lg": ["22px", { lineHeight: "28px", letterSpacing: "-0.01em", fontWeight: "700" }], "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }], "label-sm": ["11px", { lineHeight: "14px", letterSpacing: "0.04em", fontWeight: "700" }] } } } }</script>
+<style>
+  html, body { width: 100%; margin: 0; padding: 0; background-color: #faf8ff; }
+  .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
+  .pt-safe { padding-top: env(safe-area-inset-top, 0px); }
+  ::-webkit-scrollbar { display: none; }
+  .tabular { font-variant-numeric: tabular-nums; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body class="bg-surface font-body-md text-body-md text-on-surface antialiased min-h-screen">
+
+<!-- Encabezado comun -->
+<header class="fixed top-0 w-full z-40 pt-safe bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+  <div class="h-16 px-margin max-w-xl mx-auto flex items-center justify-between">
+    <div class="flex items-center gap-space-sm min-w-0">
+      <div class="w-9 h-9 rounded-lg bg-primary flex items-center justify-center text-on-primary flex-shrink-0">
+        <span class="material-symbols-outlined text-[20px]">local_hospital</span>
+      </div>
+      <div class="flex flex-col min-w-0">
+        <span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant truncate">Control de Camas</span>
+        <h1 id="titulo" class="font-headline-sm text-headline-sm text-on-surface font-bold truncate leading-tight">Inicio</h1>
+      </div>
+    </div>
+    <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container">
+      <span class="relative flex h-2 w-2">
+        <span id="vivo-ping" class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+        <span id="vivo-punto" class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+      </span>
+      <span id="vivo-texto" class="font-label-sm text-label-sm text-on-surface-variant font-bold">Conectando…</span>
+    </div>
+  </div>
+</header>
+
+<main class="pt-16 pb-28 max-w-xl mx-auto">
+
+  <!-- ============ INICIO ============ -->
+  <section id="vista-inicio" data-vista="inicio">
+    <div class="px-margin pt-space-md pb-space-sm flex flex-col gap-space-xs">
+      <span class="font-headline-lg text-headline-lg font-bold">Camas de hospital</span>
+      <div class="flex items-center justify-between text-on-surface-variant">
+        <span class="flex items-center gap-1.5 font-body-sm text-body-sm font-medium">
+          <span class="material-symbols-outlined text-[15px] text-primary">domain</span>Hospital General
+        </span>
+        <span class="flex items-center gap-1">
+          <span class="material-symbols-outlined text-[15px]">schedule</span>
+          <span id="reloj" class="font-label-md text-label-md font-bold text-on-surface tabular">—</span>
+        </span>
+      </div>
+    </div>
+    <div id="ocupacion-general" class="px-margin mb-space-md"></div>
+    <div id="banner-alerta" class="px-margin mb-space-lg"></div>
+    <div class="px-margin mb-space-sm flex items-center justify-between">
+      <h3 class="font-headline-md text-headline-md font-bold">Servicios hospitalarios</h3>
+      <span id="areas" class="font-label-md text-label-md px-2.5 py-1 rounded-full bg-surface-container-high font-bold">—</span>
+    </div>
+    <div id="lista-servicios" class="px-margin flex flex-col gap-space-md"></div>
+    <div id="panel-simulacion" class="px-margin mt-space-xl"></div>
+    <div class="fixed bottom-20 right-4 z-30">
+      <a href="#admitir" class="flex items-center gap-2 px-5 py-3.5 rounded-full bg-primary-container text-on-primary font-label-lg text-label-lg font-bold shadow-[0_8px_20px_rgba(13,94,86,0.35)] active:scale-95 transition-all">
+        <span class="material-symbols-outlined text-[24px]">person_add</span><span>Admitir paciente</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ CAMAS ============ -->
+  <section id="vista-camas" data-vista="camas" hidden>
+    <div class="px-margin pt-space-md">
+      <div id="selector-servicio" class="bg-surface-container-lowest rounded-xl p-space-md shadow-[0_2px_8px_rgba(15,23,42,0.06)] flex flex-col gap-2"></div>
+    </div>
+    <div id="chips-camas" class="flex gap-2 overflow-x-auto px-margin py-space-md"></div>
+    <div class="px-margin">
+      <div class="flex flex-wrap gap-x-4 gap-y-1 px-3 py-2 rounded-lg bg-surface-container-low font-label-md text-label-md text-on-surface-variant">
+        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-green-500"></span>Libre</span>
+        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-blue-600"></span>Ocupada</span>
+        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-amber-500"></span>Por limpiar</span>
+        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-slate-500"></span>Bloqueada</span>
+      </div>
+      <div class="flex items-center justify-between mt-space-md mb-space-sm">
+        <span class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant font-bold">Matriz de camas</span>
+        <span class="flex items-center gap-1 font-label-md text-label-md text-on-surface-variant"><span class="material-symbols-outlined text-[16px]">touch_app</span>Toque para detalles</span>
+      </div>
+      <div id="matriz" class="grid grid-cols-5 gap-2"></div>
+      <p id="matriz-vacia" class="text-center text-on-surface-variant py-8" hidden>No hay camas con ese filtro.</p>
+    </div>
+  </section>
+
+  <!-- ============ ADMITIR ============ -->
+  <section id="vista-admitir" data-vista="admitir" hidden>
+    <div class="px-margin pt-space-md">
+      <h2 class="font-headline-lg text-headline-lg font-bold">Admisión y asignación</h2>
+      <p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">Asigna la primera cama libre del servicio requerido.</p>
+      <form id="form-admitir" class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-md">
+        <label class="flex flex-col gap-1">
+          <span class="font-label-md text-label-md font-bold">ID del paciente</span>
+          <div class="flex items-center gap-2 px-3 h-12 rounded-lg bg-surface-container-low focus-within:ring-2 focus-within:ring-primary-container">
+            <span class="material-symbols-outlined text-on-surface-variant">person_search</span>
+            <input id="input-paciente" maxlength="40" required autocomplete="off" class="flex-1 bg-transparent outline-none font-numeric-bed text-numeric-bed font-mono" />
+          </div>
+        </label>
+        <div class="flex items-center justify-between">
+          <span class="font-label-md text-label-md font-bold">Servicio clínico requerido</span>
+          <span class="font-label-md text-label-md text-on-surface-variant">6 servicios</span>
+        </div>
+        <div id="opciones-servicio" class="flex flex-col gap-2"></div>
+        <div class="flex gap-2 p-3 rounded-lg bg-surface-container-low font-body-sm text-body-sm text-on-surface-variant">
+          <span class="material-symbols-outlined text-[18px]">info</span>
+          <span><b class="text-on-surface">Regla de asignación:</b> un paciente solo recibe cama de su servicio. Si no hay, entra a la lista de espera y se le asigna la primera que se libere.</span>
+        </div>
+        <button type="submit" class="h-12 rounded-lg bg-primary-container text-on-primary font-label-lg text-label-lg font-bold flex items-center justify-center gap-2 active:scale-[0.98] transition-all">
+          <span class="material-symbols-outlined">bed</span>Asignar cama ahora
+        </button>
+      </form>
+      <div id="resultado-admision" class="mt-space-md"></div>
+    </div>
+  </section>
+
+  <!-- ============ BITACORA ============ -->
+  <section id="vista-bitacora" data-vista="bitacora" hidden>
+    <div class="px-margin pt-space-md flex flex-col gap-space-sm">
+      <div>
+        <span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Historial operativo</span>
+        <h2 class="font-headline-lg text-headline-lg font-bold">Bitácora de eventos</h2>
+      </div>
+      <div class="flex items-center gap-2 px-3 h-11 rounded-lg bg-surface-container-lowest shadow-sm">
+        <span class="material-symbols-outlined text-on-surface-variant">search</span>
+        <input id="busqueda" placeholder="Buscar evento, paciente o cama…" class="flex-1 bg-transparent outline-none" />
+      </div>
+    </div>
+    <div id="chips-bitacora" class="flex gap-2 overflow-x-auto px-margin py-space-md"></div>
+    <div class="px-margin">
+      <div class="relative flex flex-col gap-space-md">
+        <div class="absolute left-[19px] top-4 bottom-4 w-0.5 bg-surface-container-highest"></div>
+        <div id="linea-tiempo" class="flex flex-col gap-space-md"></div>
+      </div>
+      <p id="bitacora-vacia" class="text-center text-on-surface-variant py-8" hidden>Sin eventos con ese filtro.</p>
+    </div>
+  </section>
+</main>
+
+<!-- Hoja inferior: detalle de cama -->
+<div id="hoja-fondo" class="fixed inset-0 z-50 bg-[rgba(15,23,42,0.4)]" hidden></div>
+<div id="hoja" class="fixed bottom-0 inset-x-0 z-50 max-w-xl mx-auto bg-surface-container-lowest rounded-t-2xl shadow-[0px_-4px_16px_rgba(15,23,42,0.12)] p-space-lg pb-8 max-h-[85vh] overflow-y-auto" hidden></div>
+
+<!-- Aviso flotante -->
+<div id="aviso" class="fixed left-1/2 -translate-x-1/2 bottom-24 z-[60] px-4 py-2.5 rounded-full shadow-lg font-label-lg text-label-lg font-bold" hidden></div>
+
+<!-- Navegacion inferior -->
+<nav class="fixed bottom-0 w-full z-40 pb-safe bg-surface/80 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.04)]">
+  <div class="flex justify-around items-center h-16 max-w-xl mx-auto">
+    <a href="#inicio" data-nav="inicio" class="flex flex-col items-center justify-center gap-0.5 w-16 h-12 text-on-surface-variant"><span class="material-symbols-outlined text-[24px]">dashboard</span><span class="font-label-sm text-label-sm">Inicio</span></a>
+    <a href="#camas" data-nav="camas" class="flex flex-col items-center justify-center gap-0.5 w-16 h-12 text-on-surface-variant"><span class="material-symbols-outlined text-[24px]">bed</span><span class="font-label-sm text-label-sm">Camas</span></a>
+    <a href="#admitir" data-nav="admitir" class="flex flex-col items-center justify-center gap-0.5 w-16 h-12 text-on-surface-variant"><span class="material-symbols-outlined text-[24px]">person_add</span><span class="font-label-sm text-label-sm">Admitir</span></a>
+    <a href="#bitacora" data-nav="bitacora" class="flex flex-col items-center justify-center gap-0.5 w-16 h-12 text-on-surface-variant"><span class="material-symbols-outlined text-[24px]">history</span><span class="font-label-sm text-label-sm">Bitácora</span></a>
+  </div>
+</nav>
+
+<script>
+"use strict";
+// Datos de presentacion de cada servicio (solo UI; el backend usa los ids).
+const SERVICIOS = {
+  medicina_interna:   { nombre: "Medicina interna",   sub: "Piso 2 · Pabellón Poniente",   icono: "stethoscope" },
+  cirugia:            { nombre: "Cirugía",            sub: "Piso 3 · Quirófanos Centrales", icono: "surgical" },
+  gineco_obstetricia: { nombre: "Gineco-obstetricia", sub: "Piso 1 · Maternidad",           icono: "pregnant_woman" },
+  pediatria:          { nombre: "Pediatría",          sub: "Piso 1 · Ala Oriente",          icono: "child_care" },
+  aislamiento:        { nombre: "Aislamiento",        sub: "Piso 4 · Presión Negativa",     icono: "masks" },
+  terapia_intensiva:  { nombre: "Terapia intensiva",  sub: "Piso 2 · UCI Adultos",          icono: "monitor_heart" },
+};
+const ESTADOS = {
+  libre:       { nombre: "Libre",       icono: "check",             tile: "bg-emerald-50 hover:bg-emerald-100", num: "text-emerald-900", ico: "text-emerald-600", sub: "text-emerald-700", pill: "bg-green-100 text-green-700" },
+  ocupada:     { nombre: "Ocupada",     icono: "person",            tile: "bg-blue-50/80 hover:bg-blue-100/90", num: "text-blue-900",    ico: "text-blue-600",    sub: "text-blue-800",    pill: "bg-blue-100 text-blue-700" },
+  por_limpiar: { nombre: "Por limpiar", icono: "cleaning_services", tile: "bg-amber-50 hover:bg-amber-100",     num: "text-amber-900",   ico: "text-amber-600",   sub: "text-amber-800",   pill: "bg-amber-100 text-amber-800" },
+  bloqueada:   { nombre: "Bloqueada",   icono: "lock",              tile: "bg-slate-100 hover:bg-slate-200",    num: "text-slate-800",   ico: "text-slate-500",   sub: "text-slate-600",   pill: "bg-slate-100 text-slate-700" },
+};
+// Niveles de ocupacion de DESIGN.md: <75 % verde, 75-84 % ambar, >=85 % rojo.
+const NIVELES = {
+  verde: { barra: "bg-green-600", texto: "text-green-600", suave: "bg-green-100" },
+  ambar: { barra: "bg-amber-600", texto: "text-amber-600", suave: "bg-amber-100" },
+  rojo:  { barra: "bg-red-600",   texto: "text-red-600",   suave: "bg-red-100" },
+};
+const TITULOS = { inicio: "Inicio", camas: "Camas", admitir: "Admitir paciente", bitacora: "Bitácora" };
+
+const estado = {
+  vista: "inicio", resumen: null, servicio: "cirugia", filtroCamas: "todas", camas: [],
+  camaAbierta: null, servicioAdmitir: "medicina_interna", eventos: [], filtroBitacora: "todos", busqueda: "",
+};
+
+// ---------- utilidades ----------
+const $ = (id) => document.getElementById(id);
+const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const pct = (x) => Math.round((x || 0) * 100);
+const nivel = (o) => (o >= 0.85 ? "rojo" : o >= 0.75 ? "ambar" : "verde");
+const nombre = (s) => (SERVICIOS[s] || { nombre: s }).nombre;
+const numCama = (id) => String(id).split("-").pop();
+function duracion(min) {
+  if (min == null) return "—";
+  if (min < 60) return `${min} min`;
+  if (min < 1440) return `${Math.floor(min / 60)} h ${min % 60} min`;
+  return `${Math.floor(min / 1440)} d ${Math.floor((min % 1440) / 60)} h`;
+}
+async function api(ruta, cuerpo) {
+  const opciones = cuerpo === undefined ? {} :
+    { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(cuerpo) };
+  const r = await fetch(ruta, opciones);
+  let datos = null;
+  try { datos = await r.json(); } catch (_) { /* sin cuerpo */ }
+  return { status: r.status, ok: r.ok, datos };
+}
+let avisoTimer;
+function aviso(texto, tipo = "ok") {
+  const el = $("aviso");
+  el.className = "fixed left-1/2 -translate-x-1/2 bottom-24 z-[60] px-4 py-2.5 rounded-full shadow-lg font-label-lg text-label-lg font-bold " +
+    (tipo === "ok" ? "bg-inverse-surface text-inverse-on-surface" : "bg-red-600 text-white");
+  el.textContent = texto;
+  el.hidden = false;
+  clearTimeout(avisoTimer);
+  avisoTimer = setTimeout(() => (el.hidden = true), 2600);
+}
+const ERRORES = {
+  transicion_invalida: "Esa acción no aplica al estado actual de la cama",
+  sin_cama: "No hay cama libre en el servicio destino",
+  cama_reiniciando: "La cama se está reiniciando, intenta de nuevo",
+  servicio_desconocido: "Servicio desconocido",
+  paciente_invalido: "ID de paciente inválido",
+  simulador_apagado: "El simulador no está corriendo",
+};
+const textoError = (r) => ERRORES[r.datos?.error] || `Error ${r.status}`;
+
+// ---------- navegacion ----------
+function mostrar(vista) {
+  if (!TITULOS[vista]) vista = "inicio";
+  estado.vista = vista;
+  document.querySelectorAll("[data-vista]").forEach((s) => (s.hidden = s.dataset.vista !== vista));
+  document.querySelectorAll("[data-nav]").forEach((a) => {
+    const activa = a.dataset.nav === vista;
+    a.classList.toggle("text-primary", activa);
+    a.classList.toggle("font-bold", activa);
+    a.classList.toggle("text-on-surface-variant", !activa);
+  });
+  $("titulo").textContent = TITULOS[vista];
+  window.scrollTo(0, 0);
+  refrescar();
+}
+window.addEventListener("hashchange", () => mostrar(location.hash.slice(1)));
+
+// ---------- datos ----------
+let refrescando = false, pendiente = false;
+async function refrescar() {
+  if (refrescando) { pendiente = true; return; }
+  refrescando = true;
+  try {
+    const r = await api("/api/resumen");
+    if (r.ok) estado.resumen = r.datos;
+    if (estado.vista === "camas" || estado.camaAbierta) {
+      const c = await api(`/api/camas?servicio=${encodeURIComponent(estado.servicio)}`);
+      if (c.ok) estado.camas = c.datos;
+    }
+    if (estado.vista === "bitacora" && estado.eventos.length === 0) {
+      const e = await api("/api/eventos?n=150");
+      if (e.ok) estado.eventos = e.datos;
+    }
+    pintar();
+  } finally {
+    refrescando = false;
+    if (pendiente) { pendiente = false; refrescar(); }
+  }
+}
+// Con la simulacion llegan muchos eventos: agrupamos los refrescos.
+let debounce;
+const refrescarPronto = () => { clearTimeout(debounce); debounce = setTimeout(refrescar, 600); };
+
+function pintar() {
+  if (!estado.resumen) return;
+  $("reloj").textContent = estado.resumen.reloj ? estado.resumen.reloj.replace("Dia", "Día") : "Tiempo real";
+  if (estado.vista === "inicio") pintarInicio();
+  if (estado.vista === "camas") pintarCamas();
+  if (estado.vista === "admitir") pintarOpcionesServicio();
+  if (estado.vista === "bitacora") pintarBitacora();
+  if (estado.camaAbierta) {
+    const c = estado.camas.find((x) => x.id === estado.camaAbierta);
+    if (c) pintarHoja(c);
+  }
+}
+
+// ---------- INICIO ----------
+function pintarInicio() {
+  const { total, servicios, alertas, simulacion } = estado.resumen;
+  const nv = NIVELES[nivel(total.ocupacion)];
+  $("ocupacion-general").innerHTML = `
+  <div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-[0_2px_8px_rgba(15,23,42,0.06)] flex flex-col gap-space-md">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary"><span class="material-symbols-outlined text-[20px]">analytics</span></div>
+        <div><h2 class="font-headline-sm text-headline-sm font-bold leading-tight">Ocupación general</h2>
+        <p class="font-label-sm text-label-sm text-on-surface-variant">Capacidad instalada global</p></div>
+      </div>
+      <div class="flex items-center gap-1 px-3 py-1 rounded-full bg-surface-container font-numeric-bed text-numeric-bed">
+        <span class="w-2.5 h-2.5 rounded-full ${nv.barra}"></span><span class="tabular">${pct(total.ocupacion)}%</span>
+      </div>
+    </div>
+    <div class="flex items-baseline gap-2">
+      <span class="font-display-stat text-display-stat font-black tabular">${total.ocupada}</span>
+      <span class="font-headline-md text-headline-md text-on-surface-variant font-medium">/ ${total.total} camas ocupadas</span>
+    </div>
+    <div class="w-full bg-surface-container rounded-full h-3.5 overflow-hidden"><div class="${nv.barra} h-full rounded-full transition-all duration-700" style="width:${pct(total.ocupacion)}%"></div></div>
+    <div class="grid grid-cols-3 gap-2 pt-1">
+      ${cuadro("Libres", total.libre, "Listas", "bg-green-500")}
+      ${cuadro("Por limpiar", total.por_limpiar, "En aseo", "bg-amber-500")}
+      ${cuadro("Bloqueadas", total.bloqueada, "En soporte", "bg-slate-500")}
+    </div>
+  </div>`;
+
+  const criticos = servicios.filter((s) => alertas.includes(s.id));
+  $("banner-alerta").innerHTML = criticos.length === 0 ? "" : `
+  <div class="bg-error-container text-on-error-container rounded-xl p-space-md shadow-sm flex items-start gap-3">
+    <div class="w-10 h-10 rounded-lg bg-tertiary-container text-on-tertiary flex items-center justify-center shrink-0 mt-0.5"><span class="material-symbols-outlined text-[24px]">crisis_alert</span></div>
+    <div class="flex flex-col flex-1 min-w-0">
+      <div class="flex items-center justify-between mb-0.5">
+        <span class="font-label-sm text-label-sm uppercase tracking-wider font-extrabold text-tertiary">Alerta de ocupación</span>
+        <span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-surface-container-lowest font-bold text-error">≥ ${pct(estado.resumen.umbral)}%</span>
+      </div>
+      <p class="font-headline-sm text-headline-sm font-bold leading-snug mb-1 text-on-surface">Ocupación crítica en ${criticos.map((s) => `${esc(nombre(s.id))} (${pct(s.ocupacion)}%)`).join(", ")}</p>
+      <p class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-error">sync_problem</span>Capacidad comprometida · Priorizar altas y traslados</p>
+    </div>
+  </div>`;
+
+  $("areas").textContent = `${servicios.length} áreas activas`;
+  $("lista-servicios").innerHTML = servicios.map(tarjetaServicio).join("");
+  $("panel-simulacion").innerHTML = simulacion ? panelSimulacion(simulacion) : "";
+}
+const cuadro = (titulo, valor, pie, punto) => `
+  <div class="bg-surface-container-low p-2.5 rounded-lg flex flex-col items-center text-center">
+    <div class="flex items-center gap-1.5 mb-0.5"><span class="w-2 h-2 rounded-full ${punto}"></span><span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold">${titulo}</span></div>
+    <span class="font-numeric-bed text-numeric-bed font-bold tabular">${valor}</span>
+    <span class="font-label-sm text-label-sm text-on-surface-variant">${pie}</span>
+  </div>`;
+
+function tarjetaServicio(s) {
+  const info = SERVICIOS[s.id] || { nombre: s.id, sub: "", icono: "bed" };
+  const n = nivel(s.ocupacion), nv = NIVELES[n];
+  const etiqueta = s.ocupacion >= 1 ? "Saturado" : n === "rojo" ? "Crítico" : "";
+  const espera = s.espera > 0
+    ? `<span class="flex items-center gap-1 px-2 py-0.5 rounded bg-error-container text-on-error-container font-bold"><span class="material-symbols-outlined text-[16px] text-error">warning</span>${s.espera} en espera</span>`
+    : `<span class="flex items-center gap-1 text-on-surface-variant"><span class="material-symbols-outlined text-[16px]">hourglass_empty</span>0 en espera</span>`;
+  return `
+  <button data-servicio="${esc(s.id)}" class="text-left bg-surface-container-lowest rounded-xl p-space-md shadow-[0_1px_4px_rgba(15,23,42,0.05)] flex flex-col gap-2.5 active:scale-[0.99] transition-all">
+    <div class="flex items-center justify-between w-full">
+      <div class="flex items-center gap-2 min-w-0">
+        <div class="w-9 h-9 rounded-lg ${n === "rojo" ? "bg-error-container text-error" : "bg-surface-container text-primary"} flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-[20px]">${info.icono}</span></div>
+        <div class="min-w-0">
+          <div class="flex items-center gap-1.5"><h4 class="font-headline-sm text-headline-sm font-bold truncate">${esc(info.nombre)}</h4>
+          ${etiqueta ? `<span class="font-label-sm text-label-sm px-1.5 rounded bg-tertiary-container text-on-tertiary font-extrabold uppercase tracking-wide">${etiqueta}</span>` : ""}</div>
+          <span class="font-label-sm text-label-sm text-on-surface-variant">${esc(info.sub)}</span>
+        </div>
+      </div>
+      <div class="text-right shrink-0"><span class="font-numeric-bed text-numeric-bed font-black tabular ${n === "rojo" ? nv.texto : ""}">${s.ocupada}/${s.total}</span>
+      <span class="font-label-md text-label-md font-bold ml-1 ${n === "rojo" ? nv.texto : "text-on-surface-variant"}">(${pct(s.ocupacion)}%)</span></div>
+    </div>
+    <div class="w-full bg-surface-container rounded-full h-2.5 overflow-hidden"><div class="${nv.barra} h-full rounded-full transition-all duration-700" style="width:${pct(s.ocupacion)}%"></div></div>
+    <div class="flex items-center justify-between w-full pt-1 border-t border-surface-container-low font-body-sm text-body-sm">
+      ${espera}
+      <span class="flex items-center gap-1 text-on-surface-variant font-medium"><span class="material-symbols-outlined text-[16px] text-primary">schedule</span>${s.libres_4h} ${s.libres_4h === 1 ? "libre" : "libres"} en 4 h</span>
+    </div>
+  </button>`;
+}
+
+function panelSimulacion(sim) {
+  const dato = (t, v) => `<div class="flex flex-col items-center"><span class="font-numeric-bed text-numeric-bed font-bold tabular">${v}</span><span class="font-label-sm text-label-sm text-on-surface-variant">${t}</span></div>`;
+  return `
+  <div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-md">
+    <div class="flex items-center gap-2"><span class="material-symbols-outlined text-primary">science</span>
+      <h3 class="font-headline-sm text-headline-sm font-bold">Simulación del escenario</h3></div>
+    <div class="grid grid-cols-5 gap-1">${dato("Ingresos", sim.ingresos)}${dato("Altas", sim.altas)}${dato("Retrasos", sim.altas_retrasadas)}${dato("Traslados", sim.traslados)}${dato("Fallas", sim.fallas)}</div>
+    <button id="btn-brote" class="h-11 rounded-lg bg-[#FEE2E2] border border-[#FECACA] text-[#DC2626] font-label-lg text-label-lg font-bold flex items-center justify-center gap-2">
+      <span class="material-symbols-outlined">coronavirus</span>Simular brote en aislamiento (25 pacientes)
+    </button>
+  </div>`;
+}
+
+$("lista-servicios").addEventListener("click", (ev) => {
+  const b = ev.target.closest("[data-servicio]");
+  if (!b) return;
+  estado.servicio = b.dataset.servicio;
+  estado.filtroCamas = "todas";
+  location.hash = "camas";
+});
+$("panel-simulacion").addEventListener("click", async (ev) => {
+  if (!ev.target.closest("#btn-brote")) return;
+  const r = await api("/api/simulador/brote", { n: 25 });
+  r.ok ? aviso("Brote enviado: 25 pacientes a Aislamiento") : aviso(textoError(r), "error");
+  refrescarPronto();
+});
+
+// ---------- CAMAS ----------
+function pintarCamas() {
+  const s = estado.resumen.servicios.find((x) => x.id === estado.servicio) || estado.resumen.servicios[0];
+  const n = nivel(s.ocupacion), nv = NIVELES[n];
+  $("selector-servicio").innerHTML = `
+    <div class="flex items-center justify-between gap-2">
+      <div class="flex items-center gap-2 min-w-0">
+        <div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary shrink-0"><span class="material-symbols-outlined">${(SERVICIOS[s.id] || {}).icono || "bed"}</span></div>
+        <div class="min-w-0">
+          <select id="select-servicio" class="font-headline-md text-headline-md font-bold bg-transparent outline-none max-w-full">
+            ${estado.resumen.servicios.map((x) => `<option value="${esc(x.id)}" ${x.id === s.id ? "selected" : ""}>${esc(nombre(x.id))}</option>`).join("")}
+          </select>
+          <div class="font-label-md text-label-md text-on-surface-variant truncate">${esc((SERVICIOS[s.id] || {}).sub || "")}</div>
+        </div>
+      </div>
+      <span class="shrink-0 px-2 py-1 rounded-full ${nv.suave} ${nv.texto} font-label-md text-label-md font-bold tabular">${s.ocupada}/${s.total} (${pct(s.ocupacion)} %)</span>
+    </div>
+    <div class="w-full bg-surface-container rounded-full h-2.5 overflow-hidden flex">
+      <div class="bg-blue-600 h-full" style="width:${(s.ocupada / s.total) * 100}%"></div>
+      <div class="bg-amber-500 h-full" style="width:${(s.por_limpiar / s.total) * 100}%"></div>
+      <div class="bg-slate-500 h-full" style="width:${(s.bloqueada / s.total) * 100}%"></div>
+    </div>
+    <div class="flex justify-between font-label-md text-label-md">
+      <span class="text-on-surface-variant">${n === "rojo" ? "Ocupación crítica (≥85 %)" : "Ocupación del servicio"}</span>
+      <span class="${s.libre <= 1 ? "text-error" : "text-on-surface-variant"} font-bold">${s.libre === 0 ? "Sin camas libres" : s.libre === 1 ? "1 cama libre restante" : `${s.libre} camas libres`}${s.espera ? ` · ${s.espera} en espera` : ""}</span>
+    </div>`;
+  $("select-servicio").onchange = (ev) => { estado.servicio = ev.target.value; estado.camas = []; refrescar(); };
+
+  const cuenta = (e) => estado.camas.filter((c) => e === "todas" || c.estado === e).length;
+  const chips = [["todas", "Todas", "grid_view"], ["libre", "Libres"], ["ocupada", "Ocupadas"], ["por_limpiar", "Por limpiar"], ["bloqueada", "Bloqueadas"]];
+  $("chips-camas").innerHTML = chips.map(([id, txt]) => {
+    const activo = estado.filtroCamas === id;
+    return `<button data-filtro="${id}" class="shrink-0 px-3.5 h-9 rounded-full border font-label-lg text-label-lg font-bold ${activo ? "bg-primary text-on-primary border-primary" : "bg-surface-container-lowest text-on-surface-variant border-[#E2E8F0]"}">${txt} (${cuenta(id)})</button>`;
+  }).join("");
+
+  const visibles = estado.camas.filter((c) => estado.filtroCamas === "todas" || c.estado === estado.filtroCamas);
+  $("matriz-vacia").hidden = visibles.length > 0;
+  $("matriz").innerHTML = visibles.map((c) => {
+    const e = ESTADOS[c.estado];
+    const abajo = c.estado === "ocupada" ? c.paciente : c.estado === "por_limpiar" ? `${c.limpieza_restante_min ?? 0} min` : c.estado === "bloqueada" ? "Mant." : "Libre";
+    const sel = c.id === estado.camaAbierta ? "ring-2 ring-primary" : "";
+    return `<button data-cama="${esc(c.id)}" class="flex flex-col justify-between p-1.5 rounded-lg shadow-sm active:scale-95 transition-all text-left ${e.tile} ${sel}">
+      <div class="w-full flex items-center justify-between"><span class="font-numeric-bed text-[13px] leading-tight font-bold ${e.num}">${esc(numCama(c.id))}</span><span class="material-symbols-outlined text-[14px] ${e.ico}">${e.icono}</span></div>
+      <span class="mt-1 font-label-sm text-[10px] leading-none block truncate ${c.estado === "ocupada" ? "font-mono" : "font-medium"} ${e.sub}">${esc(abajo)}</span>
+    </button>`;
+  }).join("");
+}
+$("chips-camas").addEventListener("click", (ev) => {
+  const b = ev.target.closest("[data-filtro]");
+  if (b) { estado.filtroCamas = b.dataset.filtro; pintarCamas(); }
+});
+$("matriz").addEventListener("click", (ev) => {
+  const b = ev.target.closest("[data-cama]");
+  if (!b) return;
+  const c = estado.camas.find((x) => x.id === b.dataset.cama);
+  if (c) abrirHoja(c);
+});
+
+// ---------- HOJA DE DETALLE ----------
+function abrirHoja(c) {
+  estado.camaAbierta = c.id;
+  $("hoja").hidden = false;
+  $("hoja-fondo").hidden = false;
+  pintarHoja(c);
+  pintarCamas();
+}
+function cerrarHoja() {
+  estado.camaAbierta = null;
+  $("hoja").hidden = true;
+  $("hoja-fondo").hidden = true;
+  if (estado.vista === "camas") pintarCamas();
+}
+$("hoja-fondo").addEventListener("click", cerrarHoja);
+
+function pintarHoja(c) {
+  const e = ESTADOS[c.estado];
+  const otros = estado.resumen.servicios.filter((s) => s.id !== c.servicio);
+  let cuerpo = "", acciones = "";
+  if (c.estado === "ocupada") {
+    cuerpo = `
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-full bg-primary-container text-on-primary flex items-center justify-center"><span class="material-symbols-outlined">person</span></div>
+        <div><div class="font-label-sm text-label-sm uppercase text-on-surface-variant">Paciente</div><div class="font-numeric-bed text-numeric-bed font-mono font-bold">${esc(c.paciente)}</div></div>
+      </div>
+      <div class="grid grid-cols-2 gap-3 pt-3 mt-3 border-t border-surface-container">
+        ${dato("login", "Ocupada desde hace", duracion(c.minutos_en_estado))}
+        ${dato("event", "Alta estimada", c.alta_en_min == null ? "Sin programar" : c.alta_en_min === 0 ? "Ya puede salir" : `en ${duracion(c.alta_en_min)}`)}
+      </div>`;
+    acciones = `
+      <button data-accion="alta" class="h-12 rounded-lg bg-primary-container text-on-primary font-label-lg text-label-lg font-bold flex items-center justify-center gap-2"><span class="material-symbols-outlined">logout</span>Dar de alta</button>
+      <div class="flex gap-2">
+        <select id="horas-alta" class="flex-1 min-w-0 h-12 px-3 rounded-lg bg-surface-container-low font-label-lg text-label-lg">
+          ${[2, 4, 8, 12, 24, 48].map((h) => `<option value="${h}">Alta en ${h} h</option>`).join("")}
+        </select>
+        <button data-accion="programar_alta" class="shrink-0 h-12 px-4 rounded-lg bg-surface-container-high text-on-surface font-label-lg text-label-lg font-bold flex items-center gap-1"><span class="material-symbols-outlined text-[20px]">calendar_clock</span>Programar</button>
+      </div>
+      <div class="flex gap-2">
+        <select id="destino-traslado" class="flex-1 min-w-0 h-12 px-3 rounded-lg bg-surface-container-low font-label-lg text-label-lg">
+          ${otros.map((s) => `<option value="${esc(s.id)}">${esc(nombre(s.id))} (${s.libre} ${s.libre === 1 ? "libre" : "libres"})</option>`).join("")}
+        </select>
+        <button data-accion="traslado" class="shrink-0 h-12 px-4 rounded-lg bg-surface-container-low border border-[#0D5E56] text-[#0D5E56] font-label-lg text-label-lg font-bold flex items-center gap-1"><span class="material-symbols-outlined text-[20px]">swap_horiz</span>Trasladar</button>
+      </div>`;
+  } else if (c.estado === "por_limpiar") {
+    const totalLimpieza = (c.minutos_en_estado || 0) + (c.limpieza_restante_min || 0);
+    const avance = totalLimpieza ? Math.min(100, Math.round(((c.minutos_en_estado || 0) / totalLimpieza) * 100)) : 0;
+    cuerpo = `
+      <div class="flex justify-between font-label-md text-label-md font-bold text-amber-800"><span>${avance}% limpia</span><span>Faltan ${duracion(c.limpieza_restante_min)}</span></div>
+      <div class="w-full h-2.5 rounded-full bg-amber-100 overflow-hidden mt-1"><div class="h-full bg-amber-600 rounded-full" style="width:${avance}%"></div></div>
+      <p class="font-body-sm text-body-sm text-on-surface-variant mt-2">Último paciente: <span class="font-mono">${esc(c.ultimo_paciente || "—")}</span></p>`;
+    acciones = `<button data-accion="limpieza" class="h-12 rounded-lg bg-primary-container text-on-primary font-label-lg text-label-lg font-bold flex items-center justify-center gap-2"><span class="material-symbols-outlined">cleaning_services</span>Limpieza terminada</button>`;
+  } else if (c.estado === "libre") {
+    cuerpo = `<p class="flex items-center gap-2 font-body-md text-green-700"><span class="material-symbols-outlined">check_circle</span>Lista para ingreso desde hace ${duracion(c.minutos_en_estado)}.</p>`;
+    acciones = `<button data-accion="bloquear" class="h-12 rounded-lg bg-[#FEE2E2] border border-[#FECACA] text-[#DC2626] font-label-lg text-label-lg font-bold flex items-center justify-center gap-2"><span class="material-symbols-outlined">lock</span>Bloquear (mantenimiento)</button>`;
+  } else {
+    cuerpo = `<p class="flex items-center gap-2 font-body-md text-on-surface-variant"><span class="material-symbols-outlined">build</span>Motivo: ${esc(c.motivo || "mantenimiento")} · desde hace ${duracion(c.minutos_en_estado)}</p>`;
+    acciones = `<button data-accion="desbloquear" class="h-12 rounded-lg bg-primary-container text-on-primary font-label-lg text-label-lg font-bold flex items-center justify-center gap-2"><span class="material-symbols-outlined">lock_open</span>Desbloquear</button>`;
+  }
+  $("hoja").innerHTML = `
+    <div class="w-10 h-1.5 rounded-full bg-surface-container-highest mx-auto mb-space-md"></div>
+    <div class="flex items-start justify-between gap-2 mb-1">
+      <h3 class="font-headline-lg text-headline-lg font-bold">Cama ${esc(c.id)}</h3>
+      <div class="flex items-center gap-2">
+        <span class="px-2.5 py-1 rounded-full ${e.pill} font-label-md text-label-md font-bold">${e.nombre}</span>
+        <button id="cerrar-hoja" class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center" aria-label="Cerrar"><span class="material-symbols-outlined">close</span></button>
+      </div>
+    </div>
+    <p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">${esc(nombre(c.servicio))} · ${esc((SERVICIOS[c.servicio] || {}).sub || "")}</p>
+    <div class="rounded-xl bg-surface-container-low p-space-md mb-space-md">${cuerpo}</div>
+    <div class="flex flex-col gap-2">${acciones}</div>`;
+  $("cerrar-hoja").onclick = cerrarHoja;
+}
+const dato = (icono, titulo, valor) => `
+  <div class="flex items-start gap-2"><span class="material-symbols-outlined text-[20px] text-primary">${icono}</span>
+  <div><div class="font-label-sm text-label-sm text-on-surface-variant">${titulo}</div><div class="font-label-lg text-label-lg font-bold">${valor}</div></div></div>`;
+
+$("hoja").addEventListener("click", async (ev) => {
+  const b = ev.target.closest("[data-accion]");
+  if (!b) return;
+  const id = estado.camaAbierta, accion = b.dataset.accion;
+  b.disabled = true;
+  let r;
+  if (accion === "traslado") {
+    const destino = $("destino-traslado").value;
+    r = await api("/api/traslados", { cama: id, servicio: destino });
+    if (r.ok) { aviso(`Trasladado a ${r.datos.cama}`); cerrarHoja(); }
+  } else {
+    const cuerpo = accion === "programar_alta" ? { minutos: Number($("horas-alta").value) * 60 } : {};
+    r = await api(`/api/camas/${encodeURIComponent(id)}/${accion}`, cuerpo);
+    if (r.ok) aviso({ alta: "Alta registrada: cama a limpieza", limpieza: "Cama lista para ingreso", bloquear: "Cama bloqueada", desbloquear: "Cama desbloqueada", programar_alta: "Alta programada" }[accion]);
+  }
+  if (!r.ok) aviso(textoError(r), "error");
+  b.disabled = false;
+  refrescar();
+});
+
+// ---------- ADMITIR ----------
+function pintarOpcionesServicio() {
+  $("opciones-servicio").innerHTML = estado.resumen.servicios.map((s) => {
+    const sel = s.id === estado.servicioAdmitir;
+    const badge = s.libre === 0 ? ["text-red-600", "bg-red-100 text-red-700", "Sin camas"]
+      : s.libre === 1 ? ["text-red-600", "bg-red-100 text-red-700", "Crítico · Última"]
+      : ["text-green-700", "bg-green-100 text-green-700", "Disponible"];
+    return `<label class="flex items-center gap-3 p-3 rounded-lg cursor-pointer ${sel ? "bg-surface-container ring-2 ring-primary-container" : "bg-surface-container-low"}">
+      <input type="radio" name="servicio" value="${esc(s.id)}" ${sel ? "checked" : ""} class="w-5 h-5 accent-[#0D5E56]" />
+      <div class="flex-1 min-w-0"><div class="font-headline-sm text-headline-sm font-bold">${esc(nombre(s.id))}</div>
+      <div class="font-body-sm text-body-sm text-on-surface-variant">${esc((SERVICIOS[s.id] || {}).sub || "")}</div></div>
+      <div class="text-right shrink-0"><div class="font-headline-sm text-headline-sm font-bold ${badge[0]}">${s.libre} ${s.libre === 1 ? "cama" : "camas"}</div>
+      <span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full ${badge[1]}">${badge[2]}</span></div>
+    </label>`;
+  }).join("");
+}
+$("opciones-servicio").addEventListener("change", (ev) => { estado.servicioAdmitir = ev.target.value; pintarOpcionesServicio(); });
+const nuevoPaciente = () => `P-${Math.floor(5000 + Math.random() * 5000)}`;
+$("input-paciente").value = nuevoPaciente();
+
+$("form-admitir").addEventListener("submit", async (ev) => {
+  ev.preventDefault();
+  const paciente = $("input-paciente").value.trim();
+  const servicio = estado.servicioAdmitir;
+  const r = await api("/api/admisiones", { paciente, servicio });
+  if (!r.ok) { aviso(textoError(r), "error"); return; }
+  await refrescar();
+  const s = estado.resumen.servicios.find((x) => x.id === servicio);
+  if (r.datos.resultado === "asignada") {
+    $("resultado-admision").innerHTML = `
+    <div class="rounded-xl bg-surface-container-lowest border-l-4 border-green-600 p-space-md shadow-sm flex flex-col gap-3">
+      <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full bg-green-100 text-green-700 flex items-center justify-center"><span class="material-symbols-outlined">check_circle</span></div>
+      <div><div class="font-label-sm text-label-sm uppercase text-green-700 font-bold">Cama asignada</div><div class="font-headline-sm text-headline-sm font-bold">Paciente ${esc(paciente)}</div></div></div>
+      <div class="rounded-lg bg-surface-container-low p-3"><span class="font-display-stat text-display-stat font-black text-primary">${esc(r.datos.cama)}</span>
+      <span class="font-headline-sm text-headline-sm font-bold"> · ${esc(nombre(servicio))}</span></div>
+      <button id="ver-en-matriz" data-cama="${esc(r.datos.cama)}" class="h-11 rounded-lg bg-primary-fixed text-on-primary-fixed-variant font-label-lg text-label-lg font-bold flex items-center justify-center gap-2"><span class="material-symbols-outlined">grid_view</span>Ver en matriz</button>
+    </div>`;
+    $("ver-en-matriz").onclick = async () => {
+      estado.servicio = servicio; estado.filtroCamas = "todas"; location.hash = "camas";
+      await refrescar();
+      const c = estado.camas.find((x) => x.id === r.datos.cama);
+      if (c) abrirHoja(c);
+    };
+  } else {
+    $("resultado-admision").innerHTML = `
+    <div class="rounded-xl bg-surface-container-lowest border-l-4 border-amber-500 p-space-md shadow-sm flex flex-col gap-3">
+      <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center"><span class="material-symbols-outlined">hourglass_top</span></div>
+      <div><div class="font-label-sm text-label-sm uppercase text-amber-700 font-bold">Sin cama · lista de espera</div><div class="font-headline-sm text-headline-sm font-bold">${esc(paciente)} · posición ${r.datos.posicion}</div></div></div>
+      <p class="font-body-sm text-body-sm text-on-surface-variant">No hay camas libres en ${esc(nombre(servicio))}. Se le asignará automáticamente la primera que se libere.</p>
+      <div class="flex flex-wrap gap-1.5">${(s?.pacientes_espera || []).map((p, i) => `<span class="px-2 py-1 rounded bg-amber-50 text-amber-800 font-mono font-label-md text-label-md">${i + 1}. ${esc(p)}</span>`).join("")}</div>
+    </div>`;
+  }
+  $("input-paciente").value = nuevoPaciente();
+  $("resultado-admision").scrollIntoView({ behavior: "smooth", block: "center" });
+});
+
+// ---------- BITACORA ----------
+const CATEGORIAS = {
+  alertas: ["alerta", "alerta_resuelta", "brote"],
+  admisiones: ["admision", "admision_desde_espera", "sin_cama", "traslado"],
+  camas: ["cambio"],
+  fallas: ["falla_inyectada", "restaurada"],
+};
+const COLOR = {
+  rojo: "bg-red-100 text-red-700", verde: "bg-green-100 text-green-700", azul: "bg-blue-100 text-blue-700",
+  ambar: "bg-amber-100 text-amber-800", gris: "bg-slate-100 text-slate-700", morado: "bg-violet-100 text-violet-700",
+  teal: "bg-primary-fixed text-on-primary-fixed-variant",
+};
+function describir(e) {
+  const srv = esc(nombre(e.servicio));
+  switch (e.tipo) {
+    case "alerta": return ["warning", "rojo", "Crítica", `${srv} al ${pct(e.ocupacion)}%`, "La ocupación cruzó el umbral de alerta. Priorizar altas y traslados."];
+    case "alerta_resuelta": return ["check_circle", "verde", "Resuelto", `${srv} bajó a ${pct(e.ocupacion)}%`, "La ocupación regresó por debajo del umbral."];
+    case "admision": return ["person_add", "azul", "Ingreso", `${esc(e.paciente)} → ${esc(e.cama)}`, `Asignado en ${srv}.`];
+    case "admision_desde_espera": return ["person_add", "teal", "Desde espera", `${esc(e.paciente)} → ${esc(e.cama)}`, `Salió de la lista de espera de ${srv}.`];
+    case "sin_cama": return ["hourglass_top", "ambar", "En espera", `${esc(e.paciente)} (posición ${e.posicion})`, `Sin camas libres en ${srv}.`];
+    case "traslado": return ["swap_horiz", "morado", "Traslado", `${esc(e.paciente)}: ${esc(e.de)} → ${esc(e.a)}`, `De ${esc(nombre(e.servicio_origen))} a ${srv}.`];
+    case "brote": return ["coronavirus", "rojo", "Brote", `${e.pacientes} pacientes a ${srv}`, "Ingreso masivo simulado."];
+    case "falla_inyectada": return ["bolt", "rojo", "Falla", `Proceso de ${esc(e.cama)} terminado`, `Se mató el proceso con la cama en estado "${esc(e.estado)}". Su supervisor la reinicia.`];
+    case "restaurada": return ["restart_alt", "teal", "Recuperada", `${esc(e.cama)} volvió en "${esc(e.estado)}"`, "El supervisor la reinició y recuperó su estado: el paciente no se perdió."];
+    case "cambio": {
+      const col = { libre: "verde", ocupada: "azul", por_limpiar: "ambar", bloqueada: "gris" }[e.a];
+      return [ESTADOS[e.a].icono, col, ESTADOS[e.a].nombre, `Cama ${esc(e.cama)}`, `${ESTADOS[e.de].nombre} → ${ESTADOS[e.a].nombre}${e.paciente ? ` · ${esc(e.paciente)}` : ""}`];
+    }
+    default: return ["info", "gris", e.tipo, "", ""];
+  }
+}
+function pintarBitacora() {
+  const chips = [["todos", "Todos"], ["alertas", "Alertas"], ["admisiones", "Admisiones"], ["camas", "Camas"], ["fallas", "Fallas"]];
+  const contar = (f) => estado.eventos.filter((e) => f === "todos" || CATEGORIAS[f].includes(e.tipo)).length;
+  $("chips-bitacora").innerHTML = chips.map(([id, txt]) => {
+    const activo = estado.filtroBitacora === id;
+    return `<button data-filtro="${id}" class="shrink-0 px-3.5 h-9 rounded-full border font-label-lg text-label-lg font-bold ${activo ? "bg-primary text-on-primary border-primary" : "bg-surface-container-lowest text-on-surface-variant border-[#E2E8F0]"}">${txt} ${contar(id)}</button>`;
+  }).join("");
+  const q = estado.busqueda.toLowerCase();
+  const visibles = estado.eventos.filter((e) =>
+    (estado.filtroBitacora === "todos" || CATEGORIAS[estado.filtroBitacora].includes(e.tipo)) &&
+    (!q || JSON.stringify(e).toLowerCase().includes(q) || nombre(e.servicio).toLowerCase().includes(q))).slice(0, 120);
+  $("bitacora-vacia").hidden = visibles.length > 0;
+  $("linea-tiempo").innerHTML = visibles.map((e) => {
+    const [icono, color, etiqueta, titulo, texto] = describir(e);
+    return `<article class="flex items-start gap-space-md relative z-10">
+      <div class="w-10 h-10 shrink-0 rounded-full ${COLOR[color]} flex items-center justify-center shadow-sm"><span class="material-symbols-outlined text-[20px]" style="font-variation-settings:'FILL' 1">${icono}</span></div>
+      <div class="flex-1 min-w-0 bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-1">
+        <div class="flex items-center justify-between gap-2">
+          <div class="flex items-center gap-1.5 min-w-0"><span class="px-2 py-0.5 rounded-full ${COLOR[color]} font-label-sm text-label-sm uppercase font-bold shrink-0">${esc(etiqueta)}</span>
+          <span class="font-body-sm text-body-sm font-bold truncate">${titulo}</span></div>
+          <span class="font-label-sm text-label-sm text-outline font-semibold shrink-0 tabular">${esc((e.hora || "").replace(/^Dia \d+ /, ""))}</span>
+        </div>
+        <p class="font-body-sm text-body-sm text-on-surface-variant leading-snug">${texto}</p>
+      </div>
+    </article>`;
+  }).join("");
+}
+$("chips-bitacora").addEventListener("click", (ev) => {
+  const b = ev.target.closest("[data-filtro]");
+  if (b) { estado.filtroBitacora = b.dataset.filtro; pintarBitacora(); }
+});
+$("busqueda").addEventListener("input", (ev) => { estado.busqueda = ev.target.value; pintarBitacora(); });
+
+// ---------- TIEMPO REAL (SSE) ----------
+function enVivo(conectado) {
+  $("vivo-texto").textContent = conectado ? "En vivo" : "Reconectando…";
+  $("vivo-ping").hidden = !conectado;
+  $("vivo-punto").className = "relative inline-flex rounded-full h-2 w-2 " + (conectado ? "bg-primary" : "bg-slate-400");
+}
+function conectar() {
+  // EventSource se reconecta solo si el servidor cierra el stream (por ejemplo,
+  // si el supervisor reinicia la bitacora).
+  const fuente = new EventSource("/sse");
+  fuente.onopen = () => enVivo(true);
+  fuente.onerror = () => enVivo(false);
+  fuente.onmessage = (msg) => {
+    const ev = JSON.parse(msg.data);
+    estado.eventos.unshift(ev);
+    estado.eventos.length = Math.min(estado.eventos.length, 400);
+    if (estado.vista === "bitacora") pintarBitacora();
+    refrescarPronto();
+  };
+}
+
+// El reloj de la simulacion avanza aunque no haya eventos.
+setInterval(refrescar, 5000);
+conectar();
+api("/api/eventos?n=150").then((r) => { if (r.ok) estado.eventos = r.datos; });
+mostrar(location.hash.slice(1) || "inicio");
+</script>
+</body>
+</html>

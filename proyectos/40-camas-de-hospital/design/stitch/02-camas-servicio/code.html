@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "surface": "#faf8ff", "surface-container-lowest": "#ffffff", "primary-fixed": "#a9f0e5", "error": "#ba1a1a", "inverse-primary": "#8ed3c9", "on-primary-fixed-variant": "#005049", "inverse-on-surface": "#eef0ff", "on-secondary-container": "#fefcff", "on-background": "#131b2e", "on-tertiary-fixed-variant": "#93000b", "outline": "#6f7977", "surface-container-high": "#e2e7ff", "secondary-container": "#316bf3", "primary-fixed-dim": "#8ed3c9", "on-surface": "#131b2e", "tertiary-container": "#ac000f", "outline-variant": "#bec9c6", "on-tertiary": "#ffffff", "on-error": "#ffffff", "surface-container-low": "#f2f3ff", "on-primary-container": "#8fd5ca", "primary-container": "#0d5e56", "surface-variant": "#dae2fd", "tertiary": "#800008", "on-primary": "#ffffff", "surface-tint": "#1f6961", "tertiary-fixed-dim": "#ffb4ab", "on-tertiary-fixed": "#410002", "on-secondary-fixed-variant": "#003ea8", "on-surface-variant": "#3f4947", "surface-bright": "#faf8ff", "error-container": "#ffdad6", "on-secondary-fixed": "#00174b", "primary": "#00453e", "on-secondary": "#ffffff", "on-primary-fixed": "#00201d", "secondary": "#0051d5", "secondary-fixed": "#dbe1ff", "on-error-container": "#93000a", "background": "#faf8ff", "surface-container": "#eaedff", "inverse-surface": "#283044", "on-tertiary-container": "#ffb6ae", "surface-dim": "#d2d9f4", "secondary-fixed-dim": "#b4c5ff", "tertiary-fixed": "#ffdad6", "surface-container-highest": "#dae2fd" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "space-xl": "1.5rem", "margin": "1rem", "space-md": "0.75rem", "gutter": "0.75rem", "space-lg": "1rem", "space-xs": "0.25rem", "space-sm": "0.5rem" }, fontFamily: { "label-md": ["Inter"], "body-sm": ["Inter"], "headline-md": ["Inter"], "numeric-bed": ["Inter"], "headline-sm": ["Inter"], "label-lg": ["Inter"], "display-stat": ["Inter"], "body-md": ["Inter"], "headline-lg": ["Inter"], "body-lg": ["Inter"], "label-sm": ["Inter"] }, fontSize: { "label-md": ["12px", { lineHeight: "16px", letterSpacing: "0.02em", fontWeight: "600" }], "body-sm": ["13px", { lineHeight: "18px", fontWeight: "400" }], "headline-md": ["18px", { lineHeight: "24px", fontWeight: "600" }], "numeric-bed": ["20px", { lineHeight: "24px", letterSpacing: "-0.01em", fontWeight: "700" }], "headline-sm": ["16px", { lineHeight: "22px", fontWeight: "600" }], "label-lg": ["14px", { lineHeight: "18px", letterSpacing: "0.01em", fontWeight: "600" }], "display-stat": ["32px", { lineHeight: "38px", letterSpacing: "-0.02em", fontWeight: "700" }], "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }], "headline-lg": ["22px", { lineHeight: "28px", letterSpacing: "-0.01em", fontWeight: "700" }], "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }], "label-sm": ["11px", { lineHeight: "14px", letterSpacing: "0.04em", fontWeight: "700" }] } } } }</script><style>@layer base{html,body{width:100%;margin:0;padding:0;background-color:#faf8ff;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-margin flex items-center justify-between"><div class="flex items-center gap-space-sm min-w-0"><div class="w-9 h-9 rounded-lg bg-primary flex items-center justify-center text-on-primary flex-shrink-0 shadow-[0_1px_3px_rgba(15,23,42,0.05)]"><span class="material-symbols-outlined text-[20px]">local_hospital</span></div><div class="flex flex-col min-w-0"><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant truncate">Control de Camas</span><h1 class="font-headline-sm text-headline-sm text-on-surface font-bold truncate leading-tight">Inicio</h1></div></div><div class="flex items-center gap-space-sm flex-shrink-0"><button class="w-11 h-11 rounded-full flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[22px]">notifications</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-16 pb-24 bg-surface min-h-screen"><div class="flex flex-col w-full pb-6">
+<!-- Dynamic bottom nav sync to set 'Camas' as active -->
+<script>
+    (function() {
+      const navLinks = document.querySelectorAll('nav a');
+      navLinks.forEach(link => {
+        if (link.getAttribute('data-path') === 'camas') {
+          link.classList.remove('text-on-surface-variant');
+          link.classList.add('text-primary', 'font-bold');
+        } else if (link.getAttribute('data-path') === 'inicio') {
+          link.classList.remove('text-primary', 'font-bold');
+          link.classList.add('text-on-surface-variant');
+        }
+      });
+    })();
+  </script>
+<!-- Service Selector & Real-Time Capacity Bar -->
+<div class="px-margin pt-2 pb-3 flex flex-col gap-2">
+<!-- Selector Bar Card -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-2.5">
+<div class="flex items-center justify-between gap-2">
+<!-- Ward Selector Trigger -->
+<button class="flex items-center gap-1.5 min-w-0 text-left group" type="button">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">medical_services</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate">Cirugía</span>
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant group-hover:text-primary transition-colors">arrow_drop_down</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant truncate">Piso 3 · Quirófanos y Recuperación</span>
+</div>
+</button>
+<!-- Capacity Critical Badge -->
+<div class="flex flex-col items-end flex-shrink-0">
+<div class="inline-flex items-center gap-1 bg-tertiary-container/15 text-tertiary px-2 py-0.5 rounded-full">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span>
+<span class="font-label-sm text-label-sm font-bold">24/25 (96 %)</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-0.5 flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[12px]">schedule</span>
+            Día 2 · 14:35
+          </span>
+</div>
+</div>
+<!-- Linear Occupancy Gauge -->
+<div class="flex flex-col gap-1">
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden flex">
+<div class="bg-secondary h-full rounded-full transition-all duration-500" style="width: 88%;"></div>
+<div class="bg-amber-500 h-full transition-all duration-500" style="width: 4%;"></div>
+<div class="bg-emerald-500 h-full transition-all duration-500" style="width: 4%;"></div>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant font-label-sm text-label-sm pt-0.5">
+<span>Ocupación crítica (&gt;85%)</span>
+<span class="font-semibold text-tertiary">1 Cama libre restante</span>
+</div>
+</div>
+</div>
+<!-- Filter Chips Row (Horizontal Scroll) -->
+<div class="flex items-center gap-2 overflow-x-auto py-1 -mx-margin px-margin no-scrollbar">
+<!-- Todas -->
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary text-on-primary font-label-md text-label-md whitespace-nowrap shadow-sm flex-shrink-0">
+<span class="material-symbols-outlined text-[16px]">grid_view</span>
+<span>Todas (25)</span>
+</button>
+<!-- Libres -->
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-800 font-label-md text-label-md whitespace-nowrap shadow-sm flex-shrink-0">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span>Libres (1)</span>
+</button>
+<!-- Ocupadas -->
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-50 text-blue-800 font-label-md text-label-md whitespace-nowrap shadow-sm flex-shrink-0">
+<span class="w-2 h-2 rounded-full bg-blue-600"></span>
+<span>Ocupadas (22)</span>
+</button>
+<!-- Por limpiar -->
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-50 text-amber-800 font-label-md text-label-md whitespace-nowrap shadow-sm flex-shrink-0">
+<span class="w-2 h-2 rounded-full bg-amber-500"></span>
+<span>Por limpiar (1)</span>
+</button>
+<!-- Bloqueadas -->
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 text-slate-700 font-label-md text-label-md whitespace-nowrap shadow-sm flex-shrink-0">
+<span class="w-2 h-2 rounded-full bg-slate-500"></span>
+<span>Bloqueadas (1)</span>
+</button>
+</div>
+<!-- Visual Legend Strip -->
+<div class="bg-surface-container-low px-3 py-1.5 rounded-lg flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant">
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span>Libre</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-blue-600"></span>
+<span>Ocupada</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-amber-500"></span>
+<span>Por limpiar</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-slate-500"></span>
+<span>Bloqueada</span>
+</div>
+</div>
+</div>
+<!-- Bed Grid 5-Columns (CIR-01 to CIR-25) -->
+<div class="px-margin flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant font-bold">Matriz de Camas</span>
+<span class="font-label-sm text-label-sm text-primary font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">touch_app</span>
+        Toque para detalles
+      </span>
+</div>
+<div class="grid grid-cols-5 gap-1.5 sm:gap-2">
+<!-- Row 1: CIR-01 to CIR-05 (All Occupied) -->
+<!-- CIR-01 -->
+<button class="flex flex-col items-center justify-between p-1.5 bg-blue-50/80 rounded-lg shadow-sm hover:bg-blue-100/90 active:scale-95 transition-all text-left" type="button">
+<div class="w-full flex items-center justify-between">
+<span class="font-numeric-bed text-[13px] leading-tight font-bold text-blue-900">01</span>
+<span class="material-symbols-outlined text-[13px] text-blue-600">person</span>
+</div>
+<div class="w-full mt-1">
+<span class="font-label-sm text-[10px] leading-none block font-mono text-blue-800 truncate">P-0118</span>
+</div>
+</button>
+<!-- CIR-02 -->
+<button class="flex flex-col items-center justify-between p-1.5 bg-blue-50/80 rounded-lg shadow-sm hover:bg-blue-100/90 active:scale-95 transition-all text-left" type="button">
+<div class="w-full flex items-center justify-between">
+<span class="font-numeric-bed text-[13px] leading-tight font-bold text-blue-900">02</span>
+<span class="material-symbols-outlined text-[13px] text-blue-600">person</span>
+</div>
+<div class="w-full mt-1">
+<span class="font-label-sm text-[10px] leading-none block font-mono text-blue-800 truncate">P-0205</span>
+</div>
+</button>
+<!-- CIR-03 -->
+<button class="flex flex-col items-center justify-between p-1.5 bg-blue-50/80 rounded-lg shadow-sm hover:bg-blue-100/90 active:scale-95 transition-all text-left" type="button">
+<div class="w-full flex items-center justify-between">
+<span class="font-numeric-bed text-[13px] leading-tight font-bold text-blue-900">03</span>
+<span class="material-symbols-outlined text-[13px] text-blue-600">person</span>
+</div>
+<div class="w-full mt-1">
+<span class="font-label-sm text-[10px] leading-none block font-mono text-blue-800 truncate">P-0229</span>
+</div>
+</button>
+<!-- CIR-04 -->
+<button class="flex flex-col items-center justify-between p-1.5 bg-blue-50/80 rounded-lg shadow-sm hover:bg-blue-100/90 active:scale-95 transition-all text-left" type="button">
+<div class="w-full flex items-center justify-between">
+<span class="font-numeric-bed text-[13px] leading-tight font-bold text-blue-900">04</span>
+<span class="material-symbols-outlined text-[13px] text-blue-600">person</span>
+</div>
+<div class="w-full mt-1">
+<span class="font-label-sm text-[10px] leading-none block font-mono text-blue-800 truncate">P-0241</span>
+</div>
+</button>
+<!-- CIR-05 -->
+<button class="flex flex-col items-center justify-between p-1.5 bg-blue-50/80 rounded-lg shadow-sm hover:bg-blue-100/90 active:scale-95 transition-all text-left" type="button">
+<div class="w-full flex items-center justify-between">
+<span class="font-numeric-bed text-[13px] leading-tight font-bold text-blue-900">05</span>
+<span class="material-symbols-outlined text-[13px] text-blue-600">person</span>
+</div>
+<div class="w-full mt-1">
+<span class="font-label-sm text-[10px] leading-none block font-mono text-blue-800 truncate">P-0284</span>
+</div>
+</button>
+<!-- Row 2: CIR-06 to CIR-10 -->
+<!-- CIR-06 -->
+<button class="flex flex-col items-center justify-between p-1.5 bg-blue-50/80 rounded-lg shadow-sm hover:bg-blue-100/90 active:scale-95 transition-all text-left" type="button">
+<div class="w-full flex items-center justify-between">
+<span class="font-numeric-bed text-[13px] leading-tight font-bold text-blue-900">06</span>
+<span class="material-symbols-outlined text-[13px] text-blue-600">person</span>
+</div>
+<div class="w-full mt-1">
+<span class="font-label-sm text-[10px] leading-none block font-mono text-blue-800 truncate">P-0312</span>
+</div>
+</button>
+<!-- CIR-07 (SELECTED ACTIVE BED) -->
+<button class="relative flex flex-col items-center justify-between p-1.5 bg-blue-600 text-white rounded-lg shadow-md scale-[1.03] transition-all text-left" id="bed-cir-07" type="button">
+<div class="w-full flex items-center justify-between">
+<span class="font-numeric-bed text-[13px] leading-tight font-extrabold text-white">07</span>
+<span class="material-symbols-outlined text-[14px] text-white">check_circle</span>
+</div>
+<div class="w-full mt-1 flex items-center justify-between">
+<span class="font-label-sm text-[10px] leading-none block font-mono font-bold text-blue-100 truncate">P-0142</span>
+</div>
+<!-- Active Selection Dot -->
+<span class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+</button>
+<!-- CIR-08 -->
+<button class="flex flex-col items-center justify-between p-1.5 bg-blue-50/80 rounded-lg shadow-sm hover:bg-blue-100/90 active:scale-95 transition-all text-left" type="button">
+<div class="w-full flex items-center justify-between">
+<span class="font-numeric-bed text-[13px] leading-tight font-bold text-blue-900">08</span>
+<span class="material-symbols-outlined text-[13px] text-blue-600">person</span>
+</div>
+<div class="w-full mt-1">
+<span class="font-label-sm text-[10px] leading-none block font-mono text-blue-800 truncate">P-0331</span>
+</div>
+</button>
+<!-- CIR-09 (LIBRE / DISPONIBLE) -->
+<button class="flex flex-col items-center justify-between p-1.5 bg-emerald-50 rounded-lg shadow-sm hover:bg-emerald-100 active:scale-95 transition-all text-left" type="button">
+<div class="w-full flex items-center justify-between">
+<span class="font-numeric-bed text-[13px] leading-tight font-bold text-emerald-900">09</span>
+<span class="material-symbols-outlined text-[14px] text-emerald-600">check</span>
+</div>
+<div class="w-full mt-1">
+<span class="font-label-sm text-[10px] leading-none block font-medium text-emerald-700 truncate">Libre</span>
+</div>
+</button>
+<!-- CIR-10 -->
+<button class="flex flex-col items-center justify-between p-1.5 bg-blue-50/80 rounded-lg shadow-sm hover:bg-blue-100/90 active:scale-95 transition-all text-left" type="button">
+<div class="w-full flex items-center justify-between">
+<span class="font-numeric-bed text-[13px] leading-tight font-bold text-blue-900">10</span>
+<span class="material-symbols-outlined text-[13px] text-blue-600">person</span>
+</div>
+<div class="w-full mt-1">
+<span class="font-label-sm text-[10px] leading-none block font-mono text-blue-800 truncate">P-0355</span>
+</div>
+</button>
+<!-- Row 3: CIR-11 to CIR-15 -->
+<!-- CIR-11 -->
+<button class="flex flex-col items-center justify-between p-1.5 bg-blue-50/80 rounded-lg shadow-sm hover:bg-blue-100/90 active:scale-95 transition-all text-left" type="button">
+<div class="w-full flex items-center justify-between">
+<span class="font-numeric-bed text-[13px] leading-tight font-bold text-blue-900">11</span>
+<span class="material-symbols-outlined text-[13px] text-blue-600">person</span>
+</div>
+<div class="w-full mt-1">
+<span class="font-label-sm text-[10px] leading-none block font-mono text-blue-800 truncate">P-0390</span>
+</div>
+</button>
+<!-- CIR-12 -->
+<button class="flex flex-col items-center justify-between p-1.5 bg-blue-50/80 rounded-lg shadow-sm hover:bg-blue-100/90 active:scale-95 transition-all text-left" type="button">
+<div class="w-full flex items-center justify-between">
+<span class="font-numeric-bed text-[13px] leading-tight font-bold text-blue-900">12</span>
+<span class="material-symbols-outlined text-[13px] text-blue-600">person</span>
+</div>
+<div class="w-full mt-1">
+<span class="font-label-sm text-[10px] leading-none block font-mono text-blue-800 truncate">P-0412</span>
+</div>
+</button>
+<!-- CIR-13 -->
+<button class="flex flex-col items-center justify-between p-1.5 bg-blue-50/80 rounded-lg shadow-sm hover:bg-blue-100/90 active:scale-95 transition-all text-left" type="button">
+<div class="w-full flex items-center justify-between">
+<span class="font-numeric-bed text-[13px] leading-tight font-bold text-blue-900">13</span>
+<span class="material-symbols-outlined text-[13px] text-blue-600">person</span>
+</div>
+<div class="w-full mt-1">
+<span class="font-label-sm text-[10px] leading-none block font-mono text-blue-800 truncate">P-0450</span>
+</div>
+</button>
+<!-- CIR-14 (POR LIMPIAR / ASEO) -->
+<button class="flex flex-col items-center justify-between p-1.5 bg-amber-50 rounded-lg shadow-sm hover:bg-amber-100 active:scale-95 transition-all text-left" type="button">
+<div class="w-full flex items-center justify-between">
+<span class="font-numeric-bed text-[13px] leading-tight font-bold text-amber-900">14</span>
+<span class="material-symbols-outlined text-[14px] text-amber-600">cleaning_services</span>
+</div>
+<div class="w-full mt-1">
+<span class="font-label-sm text-[10px] leading-none block font-medium text-amber-800 truncate">18 min</span>
+</div>
+</button>
+<!-- CIR-15 -->
+<button class="flex flex-col items-center justify-between p-1.5 bg-blue-50/80 rounded-lg shadow-sm hover:bg-blue-100/90 active:scale-95 transition-all text-left" type="button">
+<div class="w-full flex items-center justify-between">
+<span class="font-numeric-bed text-[13px] leading-tight font-bold text-blue-900">15</span>
+<span class="material-symbols-outlined text-[13px] text-blue-600">person</span>
+</div>
+<div class="w-full mt-1">
+<span class="font-label-sm text-[10px] leading-none block font-mono text-blue-800 truncate">P-0478</span>
+</div>
+</button>
+<!-- Row 4: CIR-16 to CIR-20 -->
+<!-- CIR-16 -->
+<button class="flex flex-col items-center justify-between p-1.5 bg-blue-50/80 rounded-lg shadow-sm hover:bg-blue-100/90 active:scale-95 transition-all text-left" type="button">
+<div class="w-full flex items-center justify-between">
+<span class="font-numeric-bed text-[13px] leading-tight font-bold text-blue-900">16</span>
+<span class="material-symbols-outlined text-[13px] text-blue-600">person</span>
+</div>
+<div class="w-full mt-1">
+<span class="font-label-sm text-[10px] leading-none block font-mono text-blue-800 truncate">P-0501</span>
+</div>
+</button>
+<!-- CIR-17 -->
+<button class="flex flex-col items-center justify-between p-1.5 bg-blue-50/80 rounded-lg shadow-sm hover:bg-blue-100/90 active:scale-95 transition-all text-left" type="button">
+<div class="w-full flex items-center justify-between">
+<span class="font-numeric-bed text-[13px] leading-tight font-bold text-blue-900">17</span>
+<span class="material-symbols-outlined text-[13px] text-blue-600">person</span>
+</div>
+<div class="w-full mt-1">
+<span class="font-label-sm text-[10px] leading-none block font-mono text-blue-800 truncate">P-0518</span>
+</div>
+</button>
+<!-- CIR-18 -->
+<button class="flex flex-col items-center justify-between p-1.5 bg-blue-50/80 rounded-lg shadow-sm hover:bg-blue-100/90 active:scale-95 transition-all text-left" type="button">
+<div class="w-full flex items-center justify-between">
+<span class="font-numeric-bed text-[13px] leading-tight font-bold text-blue-900">18</span>
+<span class="material-symbols-outlined text-[13px] text-blue-600">person</span>
+</div>
+<div class="w-full mt-1">
+<span class="font-label-sm text-[10px] leading-none block font-mono text-blue-800 truncate">P-0532</span>
+</div>
+</button>
+<!-- CIR-19 -->
+<button class="flex flex-col items-center justify-between p-1.5 bg-blue-50/80 rounded-lg shadow-sm hover:bg-blue-100/90 active:scale-95 transition-all text-left" type="button">
+<div class="w-full flex items-center justify-between">
+<span class="font-numeric-bed text-[13px] leading-tight font-bold text-blue-900">19</span>
+<span class="material-symbols-outlined text-[13px] text-blue-600">person</span>
+</div>
+<div class="w-full mt-1">
+<span class="font-label-sm text-[10px] leading-none block font-mono text-blue-800 truncate">P-0557</span>
+</div>
+</button>
+<!-- CIR-20 -->
+<button class="flex flex-col items-center justify-between p-1.5 bg-blue-50/80 rounded-lg shadow-sm hover:bg-blue-100/90 active:scale-95 transition-all text-left" type="button">
+<div class="w-full flex items-center justify-between">
+<span class="font-numeric-bed text-[13px] leading-tight font-bold text-blue-900">20</span>
+<span class="material-symbols-outlined text-[13px] text-blue-600">person</span>
+</div>
+<div class="w-full mt-1">
+<span class="font-label-sm text-[10px] leading-none block font-mono text-blue-800 truncate">P-0570</span>
+</div>
+</button>
+<!-- Row 5: CIR-21 to CIR-25 -->
+<!-- CIR-21 (BLOQUEADA / MANTENIMIENTO) -->
+<button class="flex flex-col items-center justify-between p-1.5 bg-slate-100 rounded-lg shadow-sm hover:bg-slate-200 active:scale-95 transition-all text-left" type="button">
+<div class="w-full flex items-center justify-between">
+<span class="font-numeric-bed text-[13px] leading-tight font-bold text-slate-800">21</span>
+<span class="material-symbols-outlined text-[14px] text-slate-500">lock</span>
+</div>
+<div class="w-full mt-1">
+<span class="font-label-sm text-[10px] leading-none block font-medium text-slate-600 truncate">Mant.</span>
+</div>
+</button>
+<!-- CIR-22 -->
+<button class="flex flex-col items-center justify-between p-1.5 bg-blue-50/80 rounded-lg shadow-sm hover:bg-blue-100/90 active:scale-95 transition-all text-left" type="button">
+<div class="w-full flex items-center justify-between">
+<span class="font-numeric-bed text-[13px] leading-tight font-bold text-blue-900">22</span>
+<span class="material-symbols-outlined text-[13px] text-blue-600">person</span>
+</div>
+<div class="w-full mt-1">
+<span class="font-label-sm text-[10px] leading-none block font-mono text-blue-800 truncate">P-0604</span>
+</div>
+</button>
+<!-- CIR-23 -->
+<button class="flex flex-col items-center justify-between p-1.5 bg-blue-50/80 rounded-lg shadow-sm hover:bg-blue-100/90 active:scale-95 transition-all text-left" type="button">
+<div class="w-full flex items-center justify-between">
+<span class="font-numeric-bed text-[13px] leading-tight font-bold text-blue-900">23</span>
+<span class="material-symbols-outlined text-[13px] text-blue-600">person</span>
+</div>
+<div class="w-full mt-1">
+<span class="font-label-sm text-[10px] leading-none block font-mono text-blue-800 truncate">P-0622</span>
+</div>
+</button>
+<!-- CIR-24 -->
+<button class="flex flex-col items-center justify-between p-1.5 bg-blue-50/80 rounded-lg shadow-sm hover:bg-blue-100/90 active:scale-95 transition-all text-left" type="button">
+<div class="w-full flex items-center justify-between">
+<span class="font-numeric-bed text-[13px] leading-tight font-bold text-blue-900">24</span>
+<span class="material-symbols-outlined text-[13px] text-blue-600">person</span>
+</div>
+<div class="w-full mt-1">
+<span class="font-label-sm text-[10px] leading-none block font-mono text-blue-800 truncate">P-0639</span>
+</div>
+</button>
+<!-- CIR-25 -->
+<button class="flex flex-col items-center justify-between p-1.5 bg-blue-50/80 rounded-lg shadow-sm hover:bg-blue-100/90 active:scale-95 transition-all text-left" type="button">
+<div class="w-full flex items-center justify-between">
+<span class="font-numeric-bed text-[13px] leading-tight font-bold text-blue-900">25</span>
+<span class="material-symbols-outlined text-[13px] text-blue-600">person</span>
+</div>
+<div class="w-full mt-1">
+<span class="font-label-sm text-[10px] leading-none block font-mono text-blue-800 truncate">P-0681</span>
+</div>
+</button>
+</div>
+</div>
+<!-- Interactive Bottom Sheet Modal: Detalle de Cama CIR-07 -->
+<div class="mt-4 px-margin" id="bed-sheet-container">
+<div class="bg-surface-container-lowest rounded-2xl shadow-xl p-space-lg flex flex-col gap-3.5 relative overflow-hidden">
+<!-- Drag Handle Pill -->
+<div class="w-full flex justify-center -mt-1">
+<div class="w-12 h-1.5 bg-outline-variant/60 rounded-full"></div>
+</div>
+<!-- Sheet Header -->
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<h2 class="font-headline-md text-headline-md text-on-surface font-bold">Detalle de Cama · CIR-07</h2>
+<span class="px-2 py-0.5 rounded-full bg-blue-50 text-blue-800 font-label-sm text-label-sm font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
+              Ocupada
+            </span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">Cirugía · Piso 3 · Habitación 307-A (Cama individual)</p>
+</div>
+<button aria-label="Cerrar detalle" class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Patient & Clinical Information Card -->
+<div class="bg-surface-container-low rounded-xl p-space-md flex flex-col gap-2.5">
+<!-- Patient Strip -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2 min-w-0">
+<div class="w-9 h-9 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-bold font-mono text-xs flex-shrink-0">
+              EM
+            </div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold truncate">Elena Morales R.</span>
+<span class="font-label-sm text-label-sm bg-surface-container-highest px-1.5 py-0.2 rounded text-on-surface-variant font-mono">P-0142</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">NSS: 4782-94-1102 · 46 años</span>
+</div>
+</div>
+<!-- Triage Badge -->
+<div class="flex flex-col items-end">
+<span class="px-2 py-0.5 rounded font-label-sm text-label-sm font-bold bg-amber-100 text-amber-900">Triage II</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant mt-0.5">Post-quirúrgico</span>
+</div>
+</div>
+<div class="h-px bg-surface-container-highest w-full my-0.5"></div>
+<!-- Operational Timestamps & Doctor Details -->
+<div class="grid grid-cols-2 gap-2 text-on-surface">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">login</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-[11px] text-on-surface-variant">Ocupada desde</span>
+<span class="font-label-md text-label-md font-bold truncate">13:05 <span class="text-on-surface-variant font-normal">(hace 1h 30m)</span></span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">event_available</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-[11px] text-emerald-800">Alta estimada</span>
+<span class="font-label-md text-label-md font-bold text-emerald-900 truncate">Hoy 16:30 <span class="text-emerald-700 font-normal">(~2h)</span></span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2 pt-1 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px] text-primary">stethoscope</span>
+<span class="truncate">Médico tratante: <strong class="text-on-surface">Dr. Ricardo Vega</strong> (Cirugía General)</span>
+</div>
+</div>
+<!-- Primary Clinical Action Buttons for Occupied Bed -->
+<div class="flex flex-col gap-2 pt-0.5">
+<div class="grid grid-cols-2 gap-2">
+<!-- Main Discharge CTA -->
+<button class="h-12 bg-primary text-on-primary rounded-xl font-label-md text-label-md font-bold flex items-center justify-center gap-1.5 shadow-sm active:opacity-90" type="button">
+<span class="material-symbols-outlined text-[20px]">exit_to_app</span>
+<span>Dar de alta</span>
+</button>
+<!-- Schedule Discharge CTA -->
+<button class="h-12 bg-surface-container-high text-primary rounded-xl font-label-md text-label-md font-bold flex items-center justify-center gap-1.5 active:bg-surface-container" type="button">
+<span class="material-symbols-outlined text-[20px]">calendar_clock</span>
+<span>Programar alta</span>
+</button>
+</div>
+<!-- Transfer bed CTA -->
+<button class="h-11 bg-surface-container-low text-on-surface-variant rounded-xl font-label-md text-label-md font-semibold flex items-center justify-center gap-1.5 hover:bg-surface-container hover:text-on-surface active:scale-[0.99] transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">swap_horiz</span>
+<span>Trasladar a otro servicio</span>
+</button>
+</div>
+<!-- Operational Status Reassignment Quick-Tabs Context Footer -->
+<div class="mt-1 pt-3 bg-surface-container-lowest rounded-xl flex flex-col gap-2">
+<span class="font-label-sm text-[11px] uppercase tracking-wider text-on-surface-variant font-semibold">Estado de camas colindantes en proceso</span>
+<!-- Collapsed status monitor preview for CIR-14 and CIR-09 -->
+<div class="grid grid-cols-2 gap-2">
+<!-- CIR-14 Quick Status Tile -->
+<div class="bg-amber-50/70 p-2 rounded-lg flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="font-numeric-bed text-[12px] font-bold text-amber-900">CIR-14</span>
+<span class="font-label-sm text-[10px] text-amber-800 font-semibold">70% limpia</span>
+</div>
+<div class="w-full bg-amber-200/80 h-1.5 rounded-full overflow-hidden">
+<div class="bg-amber-600 h-full rounded-full" style="width: 70%;"></div>
+</div>
+<span class="font-label-sm text-[10px] text-amber-700">18 min restantes</span>
+</div>
+<!-- CIR-09 Quick Status Tile -->
+<div class="bg-emerald-50/70 p-2 rounded-lg flex flex-col gap-1 justify-between">
+<div class="flex items-center justify-between">
+<span class="font-numeric-bed text-[12px] font-bold text-emerald-900">CIR-09</span>
+<span class="font-label-sm text-[10px] text-emerald-800 font-semibold">Lista</span>
+</div>
+<span class="font-label-sm text-[10px] text-emerald-700">Disponible p/ ingreso</span>
+<button class="w-full py-0.5 bg-emerald-600 text-white rounded text-[10px] font-bold mt-0.5">Asignar</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/80 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.04)]" data-active-classes="text-primary font-bold"><div class="flex justify-around items-center h-16 px-space-xs"><a class="flex flex-col items-center justify-center gap-0.5 w-16 h-12 text-on-surface-variant hover:text-on-surface transition-all" data-path="inicio" href="#"><span class="material-symbols-outlined text-[24px]">dashboard</span><span class="font-label-sm text-label-sm">Inicio</span></a><a class="flex flex-col items-center justify-center gap-0.5 w-16 h-12 text-on-surface-variant hover:text-on-surface transition-all" data-path="camas" href="#"><span class="material-symbols-outlined text-[24px]">bed</span><span class="font-label-sm text-label-sm">Camas</span></a><a class="flex flex-col items-center justify-center gap-0.5 w-16 h-12 text-on-surface-variant hover:text-on-surface transition-all" data-path="admitir" href="#"><span class="material-symbols-outlined text-[24px]">person_add</span><span class="font-label-sm text-label-sm">Admitir</span></a><a class="flex flex-col items-center justify-center gap-0.5 w-16 h-12 text-on-surface-variant hover:text-on-surface transition-all" data-path="bitacora" href="#"><span class="material-symbols-outlined text-[24px]">history</span><span class="font-label-sm text-label-sm">Bitácora</span></a></div></nav></body></html>

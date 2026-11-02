@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "surface": "#faf8ff", "surface-container-lowest": "#ffffff", "primary-fixed": "#a9f0e5", "error": "#ba1a1a", "inverse-primary": "#8ed3c9", "on-primary-fixed-variant": "#005049", "inverse-on-surface": "#eef0ff", "on-secondary-container": "#fefcff", "on-background": "#131b2e", "on-tertiary-fixed-variant": "#93000b", "outline": "#6f7977", "surface-container-high": "#e2e7ff", "secondary-container": "#316bf3", "primary-fixed-dim": "#8ed3c9", "on-surface": "#131b2e", "tertiary-container": "#ac000f", "outline-variant": "#bec9c6", "on-tertiary": "#ffffff", "on-error": "#ffffff", "surface-container-low": "#f2f3ff", "on-primary-container": "#8fd5ca", "primary-container": "#0d5e56", "surface-variant": "#dae2fd", "tertiary": "#800008", "on-primary": "#ffffff", "surface-tint": "#1f6961", "tertiary-fixed-dim": "#ffb4ab", "on-tertiary-fixed": "#410002", "on-secondary-fixed-variant": "#003ea8", "on-surface-variant": "#3f4947", "surface-bright": "#faf8ff", "error-container": "#ffdad6", "on-secondary-fixed": "#00174b", "primary": "#00453e", "on-secondary": "#ffffff", "on-primary-fixed": "#00201d", "secondary": "#0051d5", "secondary-fixed": "#dbe1ff", "on-error-container": "#93000a", "background": "#faf8ff", "surface-container": "#eaedff", "inverse-surface": "#283044", "on-tertiary-container": "#ffb6ae", "surface-dim": "#d2d9f4", "secondary-fixed-dim": "#b4c5ff", "tertiary-fixed": "#ffdad6", "surface-container-highest": "#dae2fd" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "space-xl": "1.5rem", "margin": "1rem", "space-md": "0.75rem", "gutter": "0.75rem", "space-lg": "1rem", "space-xs": "0.25rem", "space-sm": "0.5rem" }, fontFamily: { "label-md": ["Inter"], "body-sm": ["Inter"], "headline-md": ["Inter"], "numeric-bed": ["Inter"], "headline-sm": ["Inter"], "label-lg": ["Inter"], "display-stat": ["Inter"], "body-md": ["Inter"], "headline-lg": ["Inter"], "body-lg": ["Inter"], "label-sm": ["Inter"] }, fontSize: { "label-md": ["12px", { lineHeight: "16px", letterSpacing: "0.02em", fontWeight: "600" }], "body-sm": ["13px", { lineHeight: "18px", fontWeight: "400" }], "headline-md": ["18px", { lineHeight: "24px", fontWeight: "600" }], "numeric-bed": ["20px", { lineHeight: "24px", letterSpacing: "-0.01em", fontWeight: "700" }], "headline-sm": ["16px", { lineHeight: "22px", fontWeight: "600" }], "label-lg": ["14px", { lineHeight: "18px", letterSpacing: "0.01em", fontWeight: "600" }], "display-stat": ["32px", { lineHeight: "38px", letterSpacing: "-0.02em", fontWeight: "700" }], "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }], "headline-lg": ["22px", { lineHeight: "28px", letterSpacing: "-0.01em", fontWeight: "700" }], "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }], "label-sm": ["11px", { lineHeight: "14px", letterSpacing: "0.04em", fontWeight: "700" }] } } } }</script><style>@layer base{html,body{width:100%;margin:0;padding:0;background-color:#faf8ff;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-margin flex items-center justify-between"><div class="flex items-center gap-space-sm min-w-0"><div class="w-9 h-9 rounded-lg bg-primary flex items-center justify-center text-on-primary flex-shrink-0 shadow-[0_1px_3px_rgba(15,23,42,0.05)]"><span class="material-symbols-outlined text-[20px]">local_hospital</span></div><div class="flex flex-col min-w-0"><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant truncate">Control de Camas</span><h1 class="font-headline-sm text-headline-sm text-on-surface font-bold truncate leading-tight">Inicio</h1></div></div><div class="flex items-center gap-space-sm flex-shrink-0"><button class="w-11 h-11 rounded-full flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[22px]">notifications</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-16 pb-24 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- Dynamic Shift Header & Live Status Card -->
+<section class="px-margin pt-space-md pb-space-sm flex flex-col gap-space-sm">
+<div class="flex items-center justify-between gap-space-sm">
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant truncate">Historial Clínico Operativo</span>
+<h2 class="font-headline-md text-headline-md text-on-surface font-bold tracking-tight truncate">Bitácora de Eventos</h2>
+</div>
+<div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container shadow-sm flex-shrink-0">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</span>
+<span class="font-label-sm text-label-sm text-primary font-bold">En vivo</span>
+</div>
+</div>
+<!-- Shift Banner Card with Mini Shift Metrics -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary flex-shrink-0">
+<span class="material-symbols-outlined text-[22px]">manage_search</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface font-semibold truncate">Turno Vespertino · Día 2</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Corte 14:35 hrs • 8 eventos registrados</span>
+</div>
+</div>
+<button class="w-9 h-9 rounded-lg bg-surface-container-low hover:bg-surface-container flex items-center justify-center text-on-surface-variant transition-colors flex-shrink-0" id="refresh-log-btn" title="Actualizar bitácora">
+<span class="material-symbols-outlined text-[20px]">refresh</span>
+</button>
+</div>
+<!-- Quick Search Field -->
+<div class="relative w-full">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-outline">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="w-full h-11 pl-9 pr-9 rounded-lg bg-surface-container-lowest text-on-surface placeholder:text-outline text-body-sm font-body-sm shadow-sm focus:outline-none focus:bg-surface-container-lowest transition-all" id="log-search-input" placeholder="Buscar evento, paciente o cama..." type="text"/>
+<button class="hidden absolute inset-y-0 right-0 pr-3 flex items-center text-outline hover:text-on-surface" id="clear-search-btn">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</section>
+<!-- Horizontal Scrollable Filter Chips -->
+<section class="w-full overflow-x-auto no-scrollbar py-space-xs px-margin flex items-center gap-space-sm">
+<button class="filter-chip active flex items-center gap-1.5 px-3 py-1.5 rounded-full text-label-md font-label-md flex-shrink-0 transition-all bg-primary-container text-on-primary shadow-sm" data-category="all">
+<span>Todos</span>
+<span class="px-1.5 py-0.2 rounded-full bg-primary text-on-primary font-bold text-label-sm font-label-sm">8</span>
+</button>
+<button class="filter-chip flex items-center gap-1.5 px-3 py-1.5 rounded-full text-label-md font-label-md flex-shrink-0 transition-all bg-surface-container-lowest text-on-surface-variant shadow-sm hover:bg-surface-container" data-category="alert">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span>Alertas</span>
+<span class="text-on-surface-variant text-label-sm font-label-sm">(3)</span>
+</button>
+<button class="filter-chip flex items-center gap-1.5 px-3 py-1.5 rounded-full text-label-md font-label-md flex-shrink-0 transition-all bg-surface-container-lowest text-on-surface-variant shadow-sm hover:bg-surface-container" data-category="admission">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span>Admisiones</span>
+<span class="text-on-surface-variant text-label-sm font-label-sm">(1)</span>
+</button>
+<button class="filter-chip flex items-center gap-1.5 px-3 py-1.5 rounded-full text-label-md font-label-md flex-shrink-0 transition-all bg-surface-container-lowest text-on-surface-variant shadow-sm hover:bg-surface-container" data-category="discharge">
+<span class="w-2 h-2 rounded-full bg-surface-tint"></span>
+<span>Altas / Estados</span>
+<span class="text-on-surface-variant text-label-sm font-label-sm">(1)</span>
+</button>
+<button class="filter-chip flex items-center gap-1.5 px-3 py-1.5 rounded-full text-label-md font-label-md flex-shrink-0 transition-all bg-surface-container-lowest text-on-surface-variant shadow-sm hover:bg-surface-container" data-category="system">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span>Fallas</span>
+<span class="text-on-surface-variant text-label-sm font-label-sm">(1)</span>
+</button>
+<button class="filter-chip flex items-center gap-1.5 px-3 py-1.5 rounded-full text-label-md font-label-md flex-shrink-0 transition-all bg-surface-container-lowest text-on-surface-variant shadow-sm hover:bg-surface-container" data-category="transfer">
+<span class="w-2 h-2 rounded-full bg-secondary-container"></span>
+<span>Traslados</span>
+<span class="text-on-surface-variant text-label-sm font-label-sm">(1)</span>
+</button>
+</section>
+<!-- Vertical Timeline Feed -->
+<section class="px-margin pt-space-md pb-space-lg flex flex-col">
+<div class="relative flex flex-col gap-space-md" id="timeline-container">
+<!-- Continuous Timeline Spine -->
+<div class="absolute left-[19px] top-4 bottom-4 w-0.5 bg-surface-container-highest -z-0"></div>
+<!-- Item 1: Alerta crítica (Cirugía 96%) -->
+<article class="timeline-entry flex items-start gap-space-md relative z-10" data-category="alert" data-keywords="alerta cirugia 96 ocupacion cama saturacion">
+<div class="flex flex-col items-center flex-shrink-0 pt-1">
+<div class="w-10 h-10 rounded-full bg-error-container text-on-error-container flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+</div>
+<div class="flex-1 min-w-0 bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-xs">
+<div class="flex items-center justify-between gap-space-xs">
+<div class="flex items-center gap-1.5 min-w-0">
+<span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm uppercase tracking-wide font-bold">Crítica</span>
+<span class="font-numeric-bed text-body-sm font-bold text-on-surface truncate">Cirugía al 96%</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline font-semibold flex-shrink-0 tabular-nums">14:35</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-snug">
+            Ocupación en nivel de saturación crítica. Solo 1 cama libre restante. 3 pacientes en espera de ingreso quirúrgico.
+          </p>
+<div class="mt-1 pt-1.5 flex items-center justify-between text-outline text-label-sm font-label-sm bg-surface-container-low px-2 py-1 rounded">
+<span class="flex items-center gap-1 truncate"><span class="material-symbols-outlined text-[14px]">local_hospital</span> Piso 3 · Pabellón Quirúrgico</span>
+<span class="font-bold text-error">Prioridad 1</span>
+</div>
+</div>
+</article>
+<!-- Item 2: Admisión P-0231 → MI-14 -->
+<article class="timeline-entry flex items-start gap-space-md relative z-10" data-category="admission" data-keywords="admision garcia lopez p-0231 mi-14 medicina interna poniente">
+<div class="flex flex-col items-center flex-shrink-0 pt-1">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">person_add</span>
+</div>
+</div>
+<div class="flex-1 min-w-0 bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-xs">
+<div class="flex items-center justify-between gap-space-xs">
+<div class="flex items-center gap-1.5 min-w-0">
+<span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant font-label-sm text-label-sm uppercase tracking-wide font-bold">Ingreso</span>
+<span class="font-numeric-bed text-body-sm font-bold text-on-surface truncate">P-0231 → Cama MI-14</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline font-semibold flex-shrink-0 tabular-nums">14:32</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-snug">
+            Paciente García López, M. asignado a Medicina Interna, Pabellón Poniente. Triage Nivel II (Urgencia calificada).
+          </p>
+<div class="mt-1 pt-1.5 flex items-center justify-between text-outline text-label-sm font-label-sm bg-surface-container-low px-2 py-1 rounded">
+<span class="flex items-center gap-1 truncate"><span class="material-symbols-outlined text-[14px]">badge</span> NSS: 4892-88-1290-1</span>
+<span class="font-bold text-secondary">Cama Asignada</span>
+</div>
+</div>
+</article>
+<!-- Item 3: Cama CIR-03: Limpieza libre -->
+<article class="timeline-entry flex items-start gap-space-md relative z-10" data-category="discharge" data-keywords="cama cir-03 aseo desinfeccion libre disponible cirugia piso 3">
+<div class="flex flex-col items-center flex-shrink-0 pt-1">
+<div class="w-10 h-10 rounded-full bg-primary-fixed text-on-primary-fixed-variant flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">sanitizer</span>
+</div>
+</div>
+<div class="flex-1 min-w-0 bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-xs">
+<div class="flex items-center justify-between gap-space-xs">
+<div class="flex items-center gap-1.5 min-w-0">
+<span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm uppercase tracking-wide font-bold">Aseo OK</span>
+<span class="font-numeric-bed text-body-sm font-bold text-on-surface truncate">CIR-03: Libre</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline font-semibold flex-shrink-0 tabular-nums">14:20</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-snug">
+            Servicio de aseo y desinfección finalizado con éxito en Cirugía (Piso 3). Cama lista para asignación inmediata.
+          </p>
+<div class="mt-1 pt-1.5 flex items-center justify-between text-outline text-label-sm font-label-sm bg-surface-container-low px-2 py-1 rounded">
+<span class="flex items-center gap-1 truncate"><span class="material-symbols-outlined text-[14px]">cleaning_services</span> Intendencia Cuadrilla B</span>
+<span class="font-bold text-surface-tint">Disponible</span>
+</div>
+</div>
+</article>
+<!-- Item 4: Falla inyectada PED-04 -->
+<article class="timeline-entry flex items-start gap-space-md relative z-10" data-category="system" data-keywords="falla ped-04 pediatria reinicio telemetria sistema sensor">
+<div class="flex flex-col items-center flex-shrink-0 pt-1">
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</div>
+</div>
+<div class="flex-1 min-w-0 bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-xs">
+<div class="flex items-center justify-between gap-space-xs">
+<div class="flex items-center gap-1.5 min-w-0">
+<span class="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-sm text-label-sm uppercase tracking-wide font-bold">Falla Tec</span>
+<span class="font-numeric-bed text-body-sm font-bold text-on-surface truncate">Reinicio PED-04</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline font-semibold flex-shrink-0 tabular-nums">14:05</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-snug">
+            Alerta técnica del sistema: telemetría en cama pediátrica PED-04 reiniciada y reconectada con éxito; se resguardó el estado 'ocupada' y datos clínicos.
+          </p>
+<div class="mt-1 pt-1.5 flex items-center justify-between text-outline text-label-sm font-label-sm bg-surface-container-low px-2 py-1 rounded">
+<span class="flex items-center gap-1 truncate"><span class="material-symbols-outlined text-[14px]">memory</span> Sensor Biomédico v4.1</span>
+<span class="font-bold text-tertiary">Recuperado</span>
+</div>
+</div>
+</article>
+<!-- Item 5: Sin cama P-0228 en UCI -->
+<article class="timeline-entry flex items-start gap-space-md relative z-10" data-category="alert" data-keywords="sin cama p-0228 uci terapia intensiva espera saturacion">
+<div class="flex flex-col items-center flex-shrink-0 pt-1">
+<div class="w-10 h-10 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">hourglass_top</span>
+</div>
+</div>
+<div class="flex-1 min-w-0 bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-xs">
+<div class="flex items-center justify-between gap-space-xs">
+<div class="flex items-center gap-1.5 min-w-0">
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm uppercase tracking-wide font-bold">En Espera</span>
+<span class="font-numeric-bed text-body-sm font-bold text-on-surface truncate">P-0228 (UCI Posición 2)</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline font-semibold flex-shrink-0 tabular-nums">13:50</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-snug">
+            UCI al 100 % de capacidad. Paciente derivado a lista de espera prioritaria institucional en choque de urgencias.
+          </p>
+<div class="mt-1 pt-1.5 flex items-center justify-between text-outline text-label-sm font-label-sm bg-surface-container-low px-2 py-1 rounded">
+<span class="flex items-center gap-1 truncate"><span class="material-symbols-outlined text-[14px]">schedule</span> Tiempo estimado: 40 min</span>
+<span class="font-bold text-on-surface-variant">Lista Espera</span>
+</div>
+</div>
+</article>
+<!-- Item 6: Traslado P-0190 MI-08 a UCI-03 -->
+<article class="timeline-entry flex items-start gap-space-md relative z-10" data-category="transfer" data-keywords="traslado p-0190 mi-08 uci-03 vega hemodinamico choque">
+<div class="flex flex-col items-center flex-shrink-0 pt-1">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed text-secondary flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">swap_horiz</span>
+</div>
+</div>
+<div class="flex-1 min-w-0 bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-xs">
+<div class="flex items-center justify-between gap-space-xs">
+<div class="flex items-center gap-1.5 min-w-0">
+<span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-secondary font-label-sm text-label-sm uppercase tracking-wide font-bold">Traslado</span>
+<span class="font-numeric-bed text-body-sm font-bold text-on-surface truncate">P-0190: MI-08 → UCI-03</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline font-semibold flex-shrink-0 tabular-nums">13:40</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-snug">
+            Deterioro hemodinámico súbito. Autorizado por Dr. Vega. Traspaso ejecutado entre Medicina Interna y Unidad de Cuidados Intensivos.
+          </p>
+<div class="mt-1 pt-1.5 flex items-center justify-between text-outline text-label-sm font-label-sm bg-surface-container-low px-2 py-1 rounded">
+<span class="flex items-center gap-1 truncate"><span class="material-symbols-outlined text-[14px]">verified_user</span> Méd. Adscrito Dr. Vega</span>
+<span class="font-bold text-secondary">Completado</span>
+</div>
+</div>
+</article>
+<!-- Item 7: Alerta resuelta: Aislamiento bajó a 80 % -->
+<article class="timeline-entry flex items-start gap-space-md relative z-10" data-category="alert" data-keywords="alerta resuelta aislamiento 80 egresos presion negativa">
+<div class="flex flex-col items-center flex-shrink-0 pt-1">
+<div class="w-10 h-10 rounded-full bg-primary-fixed text-on-primary-fixed-variant flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+<div class="flex-1 min-w-0 bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-xs">
+<div class="flex items-center justify-between gap-space-xs">
+<div class="flex items-center gap-1.5 min-w-0">
+<span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm uppercase tracking-wide font-bold">Resuelto</span>
+<span class="font-numeric-bed text-body-sm font-bold text-on-surface truncate">Aislamiento bajó al 80%</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline font-semibold flex-shrink-0 tabular-nums">13:15</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-snug">
+            Egresos hospitalarios completados oportunamente. Se reduce presión hospitalaria en Pabellón de Presión Negativa.
+          </p>
+<div class="mt-1 pt-1.5 flex items-center justify-between text-outline text-label-sm font-label-sm bg-surface-container-low px-2 py-1 rounded">
+<span class="flex items-center gap-1 truncate"><span class="material-symbols-outlined text-[14px]">format_image_left</span> Normalización de flujo</span>
+<span class="font-bold text-surface-tint">Controlado</span>
+</div>
+</div>
+</article>
+<!-- Item 8: Brote epidemiológico: 25 pacientes a Aislamiento -->
+<article class="timeline-entry flex items-start gap-space-md relative z-10" data-category="alert" data-keywords="brote epidemiologico 25 pacientes aislamiento biohazard emergencia ssa">
+<div class="flex flex-col items-center flex-shrink-0 pt-1">
+<div class="w-10 h-10 rounded-full bg-error text-on-error flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">coronavirus</span>
+</div>
+</div>
+<div class="flex-1 min-w-0 bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-xs">
+<div class="flex items-center justify-between gap-space-xs">
+<div class="flex items-center gap-1.5 min-w-0">
+<span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm uppercase tracking-wide font-bold">Epidemia</span>
+<span class="font-numeric-bed text-body-sm font-bold text-on-surface truncate">Brote: 25 a Aislamiento</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline font-semibold flex-shrink-0 tabular-nums">12:50</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-snug">
+            Protocolo epidemiológico de emergencia activado. Reasignación masiva y bloqueo de camas contiguas a aislamiento preventivo respiratorio.
+          </p>
+<div class="mt-1 pt-1.5 flex items-center justify-between text-outline text-label-sm font-label-sm bg-surface-container-low px-2 py-1 rounded">
+<span class="flex items-center gap-1 truncate"><span class="material-symbols-outlined text-[14px]">emergency</span> Código Epidemiológico SSA</span>
+<span class="font-bold text-error">Nivel Alerta 3</span>
+</div>
+</div>
+</article>
+<!-- Empty Filter State (Hidden by default) -->
+<div class="hidden flex-col items-center justify-center text-center p-space-xl bg-surface-container-lowest rounded-xl shadow-sm gap-space-sm" id="empty-state-msg">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-outline">
+<span class="material-symbols-outlined text-[28px]">search_off</span>
+</div>
+<p class="font-headline-sm text-headline-sm text-on-surface font-semibold">No se encontraron eventos</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-xs">
+          No hay registros que coincidan con el término o filtro seleccionado en este turno.
+        </p>
+<button class="mt-2 px-4 py-2 rounded-lg bg-primary text-on-primary font-label-md text-label-md" id="reset-filters-btn">
+          Restablecer filtros
+        </button>
+</div>
+</div>
+</section>
+<!-- Shift Actions & Reporting Section -->
+<section class="px-margin pb-space-lg flex flex-col gap-space-sm">
+<div class="flex flex-col sm:flex-row gap-space-sm">
+<button class="flex-1 h-12 px-4 rounded-lg bg-surface-container-lowest text-primary font-label-lg text-label-lg shadow-sm hover:bg-surface-container-low transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">picture_as_pdf</span>
+<span>Descargar Reporte (PDF)</span>
+</button>
+<button class="flex-1 h-12 px-4 rounded-lg bg-surface-container-lowest text-on-surface-variant font-label-lg text-label-lg shadow-sm hover:bg-surface-container-low transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">calendar_view_week</span>
+<span>Histórico de Turnos</span>
+</button>
+</div>
+<!-- Institutional Footer Ribbon -->
+<div class="text-center py-space-sm flex flex-col items-center justify-center gap-1">
+<div class="flex items-center gap-2 text-outline text-label-sm font-label-sm">
+<span class="material-symbols-outlined text-[14px]">cloud_done</span>
+<span>Sincronizado con Central Hospitalaria</span>
+</div>
+<p class="text-label-sm font-label-sm text-outline-variant">
+        Versión de triage v2.8 • HGR No. 1 • IMSS Bienestar
+      </p>
+</div>
+</section>
+</div>
+<script>
+  (function initBitacora() {
+    // 1. Ensure navigation active state aligns with this screen
+    const navItems = document.querySelectorAll('nav a[data-path]');
+    navItems.forEach(item => {
+      const isBitacora = item.getAttribute('data-path') === 'bitacora';
+      if (isBitacora) {
+        item.classList.add('text-primary', 'font-bold');
+        item.classList.remove('text-on-surface-variant');
+        const icon = item.querySelector('.material-symbols-outlined');
+        if (icon) {
+          icon.style.fontVariationSettings = "'FILL' 1";
+        }
+      } else {
+        item.classList.remove('text-primary', 'font-bold');
+        item.classList.add('text-on-surface-variant');
+        const icon = item.querySelector('.material-symbols-outlined');
+        if (icon) {
+          icon.style.fontVariationSettings = "'FILL' 0";
+        }
+      }
+    });
+
+    // 2. Interactive filtering
+    const filterButtons = document.querySelectorAll('.filter-chip');
+    const timelineEntries = document.querySelectorAll('.timeline-entry');
+    const emptyState = document.getElementById('empty-state-msg');
+    const searchInput = document.getElementById('log-search-input');
+    const clearBtn = document.getElementById('clear-search-btn');
+    const resetBtn = document.getElementById('reset-filters-btn');
+    const refreshBtn = document.getElementById('refresh-log-btn');
+
+    let currentFilter = 'all';
+
+    function applyFilterAndSearch() {
+      const query = (searchInput.value || '').trim().toLowerCase();
+      let visibleCount = 0;
+
+      timelineEntries.forEach(entry => {
+        const category = entry.getAttribute('data-category');
+        const keywords = entry.getAttribute('data-keywords') || '';
+        const textContent = entry.innerText.toLowerCase();
+
+        const matchesCategory = (currentFilter === 'all') || (category === currentFilter);
+        const matchesQuery = !query || textContent.includes(query) || keywords.includes(query);
+
+        if (matchesCategory && matchesQuery) {
+          entry.style.display = 'flex';
+          visibleCount++;
+        } else {
+          entry.style.display = 'none';
+        }
+      });
+
+      if (visibleCount === 0) {
+        emptyState.classList.remove('hidden');
+        emptyState.classList.add('flex');
+      } else {
+        emptyState.classList.add('hidden');
+        emptyState.classList.remove('flex');
+      }
+
+      if (query.length > 0) {
+        clearBtn.classList.remove('hidden');
+      } else {
+        clearBtn.classList.add('hidden');
+      }
+    }
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => {
+          b.classList.remove('bg-primary-container', 'text-on-primary');
+          b.classList.add('bg-surface-container-lowest', 'text-on-surface-variant');
+        });
+        btn.classList.add('bg-primary-container', 'text-on-primary');
+        btn.classList.remove('bg-surface-container-lowest', 'text-on-surface-variant');
+
+        currentFilter = btn.getAttribute('data-category');
+        applyFilterAndSearch();
+      });
+    });
+
+    searchInput.addEventListener('input', applyFilterAndSearch);
+
+    clearBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      applyFilterAndSearch();
+      searchInput.focus();
+    });
+
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        currentFilter = 'all';
+        filterButtons.forEach(b => {
+          if (b.getAttribute('data-category') === 'all') {
+            b.classList.add('bg-primary-container', 'text-on-primary');
+            b.classList.remove('bg-surface-container-lowest', 'text-on-surface-variant');
+          } else {
+            b.classList.remove('bg-primary-container', 'text-on-primary');
+            b.classList.add('bg-surface-container-lowest', 'text-on-surface-variant');
+          }
+        });
+        applyFilterAndSearch();
+      });
+    }
+
+    if (refreshBtn) {
+      refreshBtn.addEventListener('click', () => {
+        refreshBtn.classList.add('animate-spin');
+        setTimeout(() => {
+          refreshBtn.classList.remove('animate-spin');
+        }, 600);
+      });
+    }
+  })();
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/80 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.04)]" data-active-classes="text-primary font-bold"><div class="flex justify-around items-center h-16 px-space-xs"><a class="flex flex-col items-center justify-center gap-0.5 w-16 h-12 text-on-surface-variant hover:text-on-surface transition-all" data-path="inicio" href="#"><span class="material-symbols-outlined text-[24px]">dashboard</span><span class="font-label-sm text-label-sm">Inicio</span></a><a class="flex flex-col items-center justify-center gap-0.5 w-16 h-12 text-on-surface-variant hover:text-on-surface transition-all" data-path="camas" href="#"><span class="material-symbols-outlined text-[24px]">bed</span><span class="font-label-sm text-label-sm">Camas</span></a><a class="flex flex-col items-center justify-center gap-0.5 w-16 h-12 text-on-surface-variant hover:text-on-surface transition-all" data-path="admitir" href="#"><span class="material-symbols-outlined text-[24px]">person_add</span><span class="font-label-sm text-label-sm">Admitir</span></a><a class="flex flex-col items-center justify-center gap-0.5 w-16 h-12 text-on-surface-variant hover:text-on-surface transition-all" data-path="bitacora" href="#"><span class="material-symbols-outlined text-[24px]">history</span><span class="font-label-sm text-label-sm">Bitácora</span></a></div></nav></body></html>

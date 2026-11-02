@@ -248,6 +248,102 @@ invariantes() ->
   [?assertNotEqual(undefined, P) || #{estado := ocupada, paciente := P} <- Camas],
   [?assertEqual(undefined, P) || #{estado := libre, paciente := P} <- Camas].
 
+%%% API HTTP ------------------------------------------------------------------------
+
+-define(PUERTO, 18181).
+
+http_test_() ->
+  {setup,
+   fun() ->
+     logger:set_primary_config(level, error),
+     {ok, _} = application:ensure_all_started(cowboy),
+     {ok, _} = application:ensure_all_started(inets),
+     application:set_env(p40_camas_de_hospital, servicios, ?SERVICIOS),
+     application:set_env(p40_camas_de_hospital, minuto_ms, 1),
+     application:set_env(p40_camas_de_hospital, puerto, ?PUERTO),
+     {ok, Pid} = p40_camas_de_hospital_sup:start_link(),
+     unlink(Pid),
+     Pid
+   end,
+   fun(Pid) ->
+     detener(Pid),
+     application:unset_env(p40_camas_de_hospital, puerto)
+   end,
+   fun(_) -> [
+     ?_test(begin
+       {200, R} = pedir(get, "/api/resumen"),
+       ?assertMatch(#{<<"total">> := #{<<"total">> := 4, <<"libre">> := 4}}, R),
+       ?assertEqual(2, length(maps:get(<<"servicios">>, R)))
+     end),
+     ?_test(begin
+       {200, Camas} = pedir(get, "/api/camas?servicio=general"),
+       ?assertEqual([<<"GEN-01">>, <<"GEN-02">>, <<"GEN-03">>],
+                    [maps:get(<<"id">>, C) || C <- Camas]),
+       ?assertMatch({400, #{<<"error">> := <<"servicio_desconocido">>}},
+                    pedir(get, "/api/camas?servicio=marte"))
+     end),
+     ?_test(begin
+       ?assertMatch({200, #{<<"resultado">> := <<"asignada">>, <<"cama">> := <<"UCI-01">>}},
+                    pedir(post, "/api/admisiones", #{paciente => <<"H1">>, servicio => <<"terapia_intensiva">>})),
+       ?assertMatch({202, #{<<"resultado">> := <<"en_espera">>, <<"posicion">> := 1}},
+                    pedir(post, "/api/admisiones", #{paciente => <<"H2">>, servicio => <<"terapia_intensiva">>})),
+       ?assertMatch({400, #{<<"error">> := <<"paciente_invalido">>}},
+                    pedir(post, "/api/admisiones", #{paciente => <<>>, servicio => <<"general">>})),
+       ?assertMatch({400, #{<<"error">> := <<"json_invalido">>}},
+                    pedir_crudo(post, "/api/admisiones", <<"{oops">>))
+     end),
+     ?_test(begin
+       ?assertMatch({409, #{<<"error">> := <<"transicion_invalida">>, <<"estado">> := <<"libre">>}},
+                    pedir(post, "/api/camas/GEN-03/alta", #{})),
+       ?assertMatch({404, #{<<"error">> := <<"cama_desconocida">>}},
+                    pedir(post, "/api/camas/NO-EXISTE/alta", #{})),
+       ?assertMatch({404, #{<<"error">> := <<"accion_desconocida">>}},
+                    pedir(post, "/api/camas/GEN-03/volar", #{})),
+       ?assertMatch({200, #{<<"cama">> := #{<<"estado">> := <<"bloqueada">>}}},
+                    pedir(post, "/api/camas/GEN-03/bloquear", #{motivo => <<"pintura">>})),
+       ?assertMatch({405, _}, pedir(delete, "/api/resumen"))
+     end),
+     ?_test(begin
+       {ok, {{_, 200, _}, _, Html}} = httpc:request(url("/")),
+       ?assertNotEqual(nomatch, string:find(Html, "Control de Camas")),
+       {ok, {{_, 200, _}, _, Metricas}} = httpc:request(url("/metrics")),
+       ?assertNotEqual(nomatch, string:find(Metricas, "p40_camas{servicio=\"general\",estado=\"libre\"}"))
+     end),
+     %% El navegador recibe por SSE el evento en cuanto ocurre.
+     ?_test(begin
+       {ok, S} = gen_tcp:connect("localhost", ?PUERTO, [binary, {active, false}]),
+       ok = gen_tcp:send(S, <<"GET /sse HTTP/1.1\r\nHost: localhost\r\n\r\n">>),
+       {ok, Cabeceras} = gen_tcp:recv(S, 0, 2000),
+       ?assertNotEqual(nomatch, binary:match(Cabeceras, <<"text/event-stream">>)),
+       {200, _} = pedir(post, "/api/admisiones", #{paciente => <<"SSE-1">>, servicio => <<"general">>}),
+       ?assert(recibir_hasta(S, <<"SSE-1">>, 20)),
+       gen_tcp:close(S)
+     end)
+   ] end}.
+
+url(Ruta) -> "http://localhost:" ++ integer_to_list(?PUERTO) ++ Ruta.
+
+pedir(Metodo, Ruta) ->
+  {ok, {{_, Codigo, _}, _, Cuerpo}} = httpc:request(Metodo, {url(Ruta), []}, [], [{body_format, binary}]),
+  {Codigo, json:decode(Cuerpo)}.
+
+pedir(Metodo, Ruta, Mapa) ->
+  pedir_crudo(Metodo, Ruta, iolist_to_binary(json:encode(Mapa))).
+
+pedir_crudo(Metodo, Ruta, Cuerpo) ->
+  {ok, {{_, Codigo, _}, _, Resp}} =
+    httpc:request(Metodo, {url(Ruta), [], "application/json", Cuerpo}, [], [{body_format, binary}]),
+  {Codigo, json:decode(Resp)}.
+
+recibir_hasta(_S, _Texto, 0) -> false;
+recibir_hasta(S, Texto, N) ->
+  case gen_tcp:recv(S, 0, 1000) of
+    {ok, Datos} ->
+      binary:match(Datos, Texto) =/= nomatch orelse recibir_hasta(S, Texto, N - 1);
+    {error, timeout} ->
+      recibir_hasta(S, Texto, N - 1)
+  end.
+
 %%% Utilidades --------------------------------------------------------------------
 
 esperar_estado(Id, Estado) ->
