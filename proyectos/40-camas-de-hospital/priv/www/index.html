@@ -22,7 +22,7 @@
 
 <!-- Encabezado comun -->
 <header class="fixed top-0 w-full z-40 pt-safe bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
-  <div class="h-16 px-margin max-w-xl mx-auto flex items-center justify-between">
+  <div class="h-16 px-margin max-w-xl mx-auto lg:max-w-none lg:px-6 flex items-center justify-between">
     <div class="flex items-center gap-space-sm min-w-0">
       <div class="w-9 h-9 rounded-lg bg-primary flex items-center justify-center text-on-primary flex-shrink-0">
         <span class="material-symbols-outlined text-[20px]">local_hospital</span>
@@ -42,13 +42,13 @@
   </div>
 </header>
 
-<main class="pt-16 pb-28 max-w-xl mx-auto">
+<main id="principal" class="pt-16 pb-28 max-w-xl mx-auto lg:max-w-none lg:ml-60 lg:mr-0 lg:pb-10">
 
   <!-- ============ INICIO ============ -->
   <section id="vista-inicio" data-vista="inicio">
-    <div class="px-margin pt-space-md pb-space-sm flex flex-col gap-space-xs">
+    <div class="px-margin lg:px-8 pt-space-md lg:pt-space-lg pb-space-sm lg:pb-space-md flex flex-col gap-space-xs">
       <span class="font-headline-lg text-headline-lg font-bold">Camas de hospital</span>
-      <div class="flex items-center justify-between text-on-surface-variant">
+      <div class="flex items-center justify-between lg:justify-start lg:gap-space-lg text-on-surface-variant">
         <span class="flex items-center gap-1.5 font-body-sm text-body-sm font-medium">
           <span class="material-symbols-outlined text-[15px] text-primary">domain</span>Hospital General
         </span>
@@ -58,15 +58,19 @@
         </span>
       </div>
     </div>
-    <div id="ocupacion-general" class="px-margin mb-space-md"></div>
-    <div id="banner-alerta" class="px-margin mb-space-lg"></div>
-    <div class="px-margin mb-space-sm flex items-center justify-between">
-      <h3 class="font-headline-md text-headline-md font-bold">Servicios hospitalarios</h3>
-      <span id="areas" class="font-label-md text-label-md px-2.5 py-1 rounded-full bg-surface-container-high font-bold">—</span>
+    <div class="lg:grid lg:grid-cols-12 lg:gap-x-6 lg:px-8 lg:items-start lg:grid-rows-[auto_auto_1fr]">
+      <div id="ocupacion-general" class="px-margin lg:px-0 mb-space-md lg:col-span-5 xl:col-span-4 lg:row-start-1"></div>
+      <div id="banner-alerta" class="px-margin lg:px-0 mb-space-lg lg:mb-space-md lg:col-span-5 xl:col-span-4 lg:row-start-2"></div>
+      <div class="lg:col-span-7 xl:col-span-8 lg:col-start-6 xl:col-start-5 lg:row-start-1 lg:row-span-3">
+        <div class="px-margin lg:px-0 mb-space-sm flex items-center justify-between">
+          <h3 class="font-headline-md text-headline-md font-bold">Servicios hospitalarios</h3>
+          <span id="areas" class="font-label-md text-label-md px-2.5 py-1 rounded-full bg-surface-container-high font-bold">—</span>
+        </div>
+        <div id="lista-servicios" class="px-margin lg:px-0 flex flex-col gap-space-md xl:grid xl:grid-cols-2"></div>
+      </div>
+      <div id="panel-simulacion" class="px-margin lg:px-0 mt-space-xl lg:mt-0 lg:col-span-5 xl:col-span-4 lg:row-start-3"></div>
     </div>
-    <div id="lista-servicios" class="px-margin flex flex-col gap-space-md"></div>
-    <div id="panel-simulacion" class="px-margin mt-space-xl"></div>
-    <div class="fixed bottom-20 right-4 z-30">
+    <div class="fixed bottom-20 right-4 z-30 lg:hidden">
       <a href="#admitir" class="flex items-center gap-2 px-5 py-3.5 rounded-full bg-primary-container text-on-primary font-label-lg text-label-lg font-bold shadow-[0_8px_20px_rgba(13,94,86,0.35)] active:scale-95 transition-all">
         <span class="material-symbols-outlined text-[24px]">person_add</span><span>Admitir paciente</span>
       </a>
@@ -75,11 +79,11 @@
 
   <!-- ============ CAMAS ============ -->
   <section id="vista-camas" data-vista="camas" hidden>
-    <div class="px-margin pt-space-md">
+    <div class="px-margin lg:px-8 pt-space-md lg:pt-space-lg">
       <div id="selector-servicio" class="bg-surface-container-lowest rounded-xl p-space-md shadow-[0_2px_8px_rgba(15,23,42,0.06)] flex flex-col gap-2"></div>
     </div>
-    <div id="chips-camas" class="flex gap-2 overflow-x-auto px-margin py-space-md"></div>
-    <div class="px-margin">
+    <div id="chips-camas" class="flex gap-2 overflow-x-auto px-margin lg:px-8 py-space-md"></div>
+    <div class="px-margin lg:px-8">
       <div class="flex flex-wrap gap-x-4 gap-y-1 px-3 py-2 rounded-lg bg-surface-container-low font-label-md text-label-md text-on-surface-variant">
         <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-green-500"></span>Libre</span>
         <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-blue-600"></span>Ocupada</span>
@@ -88,18 +92,18 @@
       </div>
       <div class="flex items-center justify-between mt-space-md mb-space-sm">
         <span class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant font-bold">Matriz de camas</span>
-        <span class="flex items-center gap-1 font-label-md text-label-md text-on-surface-variant"><span class="material-symbols-outlined text-[16px]">touch_app</span>Toque para detalles</span>
+        <span class="flex items-center gap-1 font-label-md text-label-md text-on-surface-variant"><span class="material-symbols-outlined text-[16px]">touch_app</span><span class="lg:hidden">Toque para detalles</span><span class="hidden lg:inline">Clic en una cama para ver detalles</span></span>
       </div>
-      <div id="matriz" class="grid grid-cols-5 gap-2"></div>
+      <div id="matriz" class="grid grid-cols-5 lg:grid-cols-10 gap-2 lg:gap-3"></div>
       <p id="matriz-vacia" class="text-center text-on-surface-variant py-8" hidden>No hay camas con ese filtro.</p>
     </div>
   </section>
 
   <!-- ============ ADMITIR ============ -->
   <section id="vista-admitir" data-vista="admitir" hidden>
-    <div class="px-margin pt-space-md">
-      <h2 class="font-headline-lg text-headline-lg font-bold">Admisión y asignación</h2>
-      <p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">Asigna la primera cama libre del servicio requerido.</p>
+    <div class="px-margin lg:px-8 pt-space-md lg:pt-space-lg lg:grid lg:grid-cols-2 lg:gap-x-6 lg:items-start">
+      <h2 class="font-headline-lg text-headline-lg font-bold lg:col-span-2">Admisión y asignación</h2>
+      <p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md lg:col-span-2">Asigna la primera cama libre del servicio requerido.</p>
       <form id="form-admitir" class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-md">
         <label class="flex flex-col gap-1">
           <span class="font-label-md text-label-md font-bold">ID del paciente</span>
@@ -121,13 +125,13 @@
           <span class="material-symbols-outlined">bed</span>Asignar cama ahora
         </button>
       </form>
-      <div id="resultado-admision" class="mt-space-md"></div>
+      <div id="resultado-admision" class="mt-space-md lg:mt-0"></div>
     </div>
   </section>
 
   <!-- ============ BITACORA ============ -->
   <section id="vista-bitacora" data-vista="bitacora" hidden>
-    <div class="px-margin pt-space-md flex flex-col gap-space-sm">
+    <div class="px-margin lg:px-8 pt-space-md lg:pt-space-lg flex flex-col gap-space-sm lg:max-w-5xl">
       <div>
         <span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Historial operativo</span>
         <h2 class="font-headline-lg text-headline-lg font-bold">Bitácora de eventos</h2>
@@ -137,8 +141,8 @@
         <input id="busqueda" placeholder="Buscar evento, paciente o cama…" class="flex-1 bg-transparent outline-none" />
       </div>
     </div>
-    <div id="chips-bitacora" class="flex gap-2 overflow-x-auto px-margin py-space-md"></div>
-    <div class="px-margin">
+    <div id="chips-bitacora" class="flex gap-2 overflow-x-auto px-margin lg:px-8 py-space-md lg:max-w-5xl"></div>
+    <div class="px-margin lg:px-8 lg:max-w-5xl">
       <div class="relative flex flex-col gap-space-md">
         <div class="absolute left-[19px] top-4 bottom-4 w-0.5 bg-surface-container-highest"></div>
         <div id="linea-tiempo" class="flex flex-col gap-space-md"></div>
@@ -150,18 +154,19 @@
 
 <!-- Hoja inferior: detalle de cama -->
 <div id="hoja-fondo" class="fixed inset-0 z-50 bg-[rgba(15,23,42,0.4)]" hidden></div>
-<div id="hoja" class="fixed bottom-0 inset-x-0 z-50 max-w-xl mx-auto bg-surface-container-lowest rounded-t-2xl shadow-[0px_-4px_16px_rgba(15,23,42,0.12)] p-space-lg pb-8 max-h-[85vh] overflow-y-auto" hidden></div>
+<div id="hoja" class="fixed bottom-0 inset-x-0 z-50 max-w-xl mx-auto bg-surface-container-lowest rounded-t-2xl shadow-[0px_-4px_16px_rgba(15,23,42,0.12)] p-space-lg pb-8 max-h-[85vh] overflow-y-auto lg:top-0 lg:left-auto lg:right-0 lg:w-[440px] lg:max-w-none lg:mx-0 lg:max-h-none lg:rounded-t-none lg:rounded-l-2xl lg:shadow-[-4px_0px_24px_rgba(15,23,42,0.12)] lg:pt-space-xl" hidden></div>
 
 <!-- Aviso flotante -->
-<div id="aviso" class="fixed left-1/2 -translate-x-1/2 bottom-24 z-[60] px-4 py-2.5 rounded-full shadow-lg font-label-lg text-label-lg font-bold" hidden></div>
+<div id="aviso" class="fixed left-1/2 lg:left-[calc(50%+120px)] -translate-x-1/2 bottom-24 lg:bottom-8 z-[60] px-4 py-2.5 rounded-full shadow-lg font-label-lg text-label-lg font-bold" hidden></div>
 
-<!-- Navegacion inferior -->
-<nav class="fixed bottom-0 w-full z-40 pb-safe bg-surface/80 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.04)]">
-  <div class="flex justify-around items-center h-16 max-w-xl mx-auto">
-    <a href="#inicio" data-nav="inicio" class="flex flex-col items-center justify-center gap-0.5 w-16 h-12 text-on-surface-variant"><span class="material-symbols-outlined text-[24px]">dashboard</span><span class="font-label-sm text-label-sm">Inicio</span></a>
-    <a href="#camas" data-nav="camas" class="flex flex-col items-center justify-center gap-0.5 w-16 h-12 text-on-surface-variant"><span class="material-symbols-outlined text-[24px]">bed</span><span class="font-label-sm text-label-sm">Camas</span></a>
-    <a href="#admitir" data-nav="admitir" class="flex flex-col items-center justify-center gap-0.5 w-16 h-12 text-on-surface-variant"><span class="material-symbols-outlined text-[24px]">person_add</span><span class="font-label-sm text-label-sm">Admitir</span></a>
-    <a href="#bitacora" data-nav="bitacora" class="flex flex-col items-center justify-center gap-0.5 w-16 h-12 text-on-surface-variant"><span class="material-symbols-outlined text-[24px]">history</span><span class="font-label-sm text-label-sm">Bitácora</span></a>
+<!-- Navegacion: barra inferior en celular, menu lateral en escritorio (lg = 1024 px o mas) -->
+<nav class="fixed bottom-0 w-full z-40 pb-safe bg-surface/80 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.04)] lg:top-16 lg:w-60 lg:pb-0 lg:bg-surface-container-lowest lg:backdrop-blur-none lg:shadow-none lg:border-r lg:border-surface-container-high">
+  <div class="flex justify-around items-center h-16 max-w-xl mx-auto lg:flex-col lg:justify-start lg:items-stretch lg:h-full lg:max-w-none lg:mx-0 lg:p-3 lg:gap-1">
+    <span class="hidden lg:block px-3 pt-2 pb-2 font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-bold">Navegación</span>
+    <a href="#inicio" data-nav="inicio" class="flex flex-col items-center justify-center gap-0.5 w-16 h-12 text-on-surface-variant lg:flex-row lg:justify-start lg:gap-3 lg:w-full lg:h-11 lg:px-3 lg:rounded-lg lg:hover:bg-surface-container-low"><span class="material-symbols-outlined text-[24px]">dashboard</span><span class="font-label-sm text-label-sm lg:font-label-lg lg:text-label-lg">Inicio</span></a>
+    <a href="#camas" data-nav="camas" class="flex flex-col items-center justify-center gap-0.5 w-16 h-12 text-on-surface-variant lg:flex-row lg:justify-start lg:gap-3 lg:w-full lg:h-11 lg:px-3 lg:rounded-lg lg:hover:bg-surface-container-low"><span class="material-symbols-outlined text-[24px]">bed</span><span class="font-label-sm text-label-sm lg:font-label-lg lg:text-label-lg">Camas</span></a>
+    <a href="#admitir" data-nav="admitir" class="flex flex-col items-center justify-center gap-0.5 w-16 h-12 text-on-surface-variant lg:flex-row lg:justify-start lg:gap-3 lg:w-full lg:h-11 lg:px-3 lg:rounded-lg lg:hover:bg-surface-container-low"><span class="material-symbols-outlined text-[24px]">person_add</span><span class="font-label-sm text-label-sm lg:font-label-lg lg:text-label-lg">Admitir</span></a>
+    <a href="#bitacora" data-nav="bitacora" class="flex flex-col items-center justify-center gap-0.5 w-16 h-12 text-on-surface-variant lg:flex-row lg:justify-start lg:gap-3 lg:w-full lg:h-11 lg:px-3 lg:rounded-lg lg:hover:bg-surface-container-low"><span class="material-symbols-outlined text-[24px]">history</span><span class="font-label-sm text-label-sm lg:font-label-lg lg:text-label-lg">Bitácora</span></a>
   </div>
 </nav>
 
@@ -246,6 +251,7 @@ function mostrar(vista) {
     a.classList.toggle("text-primary", activa);
     a.classList.toggle("font-bold", activa);
     a.classList.toggle("text-on-surface-variant", !activa);
+    a.classList.toggle("lg:bg-surface-container", activa);
   });
   $("titulo").textContent = TITULOS[vista];
   window.scrollTo(0, 0);
@@ -463,7 +469,9 @@ $("matriz").addEventListener("click", (ev) => {
 function abrirHoja(c) {
   estado.camaAbierta = c.id;
   $("hoja").hidden = false;
-  $("hoja-fondo").hidden = false;
+  $("hoja-fondo").hidden = window.matchMedia("(min-width: 1024px)").matches;
+  // En escritorio el panel va a la derecha: recorremos el contenido para no tapar la matriz.
+  $("principal").classList.add("lg:mr-[440px]");
   pintarHoja(c);
   pintarCamas();
 }
@@ -471,6 +479,7 @@ function cerrarHoja() {
   estado.camaAbierta = null;
   $("hoja").hidden = true;
   $("hoja-fondo").hidden = true;
+  $("principal").classList.remove("lg:mr-[440px]");
   if (estado.vista === "camas") pintarCamas();
 }
 $("hoja-fondo").addEventListener("click", cerrarHoja);
@@ -519,7 +528,7 @@ function pintarHoja(c) {
     acciones = `<button data-accion="desbloquear" class="h-12 rounded-lg bg-primary-container text-on-primary font-label-lg text-label-lg font-bold flex items-center justify-center gap-2"><span class="material-symbols-outlined">lock_open</span>Desbloquear</button>`;
   }
   $("hoja").innerHTML = `
-    <div class="w-10 h-1.5 rounded-full bg-surface-container-highest mx-auto mb-space-md"></div>
+    <div class="w-10 h-1.5 rounded-full bg-surface-container-highest mx-auto mb-space-md lg:hidden"></div>
     <div class="flex items-start justify-between gap-2 mb-1">
       <h3 class="font-headline-lg text-headline-lg font-bold">Cama ${esc(c.id)}</h3>
       <div class="flex items-center gap-2">

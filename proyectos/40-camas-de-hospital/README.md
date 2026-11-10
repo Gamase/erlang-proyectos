@@ -80,7 +80,14 @@ El diseno se hizo en Stitch con los prompts de `design/PROMPT_STITCH.md`. El exp
 esta en `design/stitch/` (HTML y captura de cada pantalla) y `design/DESIGN.md` es
 la fuente de colores y tipografia. La app real vive en `priv/www/index.html`: una
 sola pagina con HTML/CSS/JS plano que reutiliza la configuracion de Tailwind del
-export y se conecta a la API. Capturas de la app funcionando: `design/app/`.
+export y se conecta a la API. Capturas de la app funcionando: `design/app/` (celular)
+y `design/app/escritorio/` (computadora).
+
+La pagina es responsiva: en el celular se ve como app (barra de navegacion abajo, una
+columna) y en pantallas de 1024 px o mas se acomoda como dashboard web (menu lateral,
+servicios en cuadricula, matriz de 10 columnas, detalle de cama en panel lateral). Es el
+mismo HTML con clases responsivas de Tailwind; los colores, tipografia y componentes son
+los de `design/DESIGN.md`.
 
 | Pantalla | Stitch | App |
 |---|---|---|
